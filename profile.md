@@ -147,7 +147,18 @@ A autoridade central de distribuição de executáveis e pacotes definida na Se�
 
 ---
 
-## 5. Entrega Contínua de Servidores (CD em `obizero`, `obione` e `obitwo`)
+## 5. Orquestração Contínua de Dependências e Propagação em Cascata (Kombinat)
+
+Para manter a coesão e a reprodutibilidade do ecossistema de bibliotecas e motores interdependentes registrados na forja primária (`gambi.2lp.in`) e no registro interno (`crates.2lp.in`), o perfil Lilya adota o daemon **Kombinat** como o gestor autônomo de dependências:
+
+### 5.1 O Papel do Daemon Kombinat
+* **Monitoramento Contínuo:** O Kombinat monitora continuamente os eventos de publicação de novos pacotes (`cargo`, `generic`) na forja primária (`gambi.2lp.in`) e no registro de pacotes (`crates.2lp.in`).
+* **Propagação Automatizada em Cascata:** Ao detectar uma nova versão canônica de desenvolvimento publicada a montante (upstream, ex.: `0.2.0-dev.56`), o Kombinat orquestra a propagação dos bumps exatos nos manifestos de compilação dos módulos a jusante (downstream), disparando compilações e suítes de validação em cascata.
+* **Recomendação Sem Trava Mandatória:** A fixação em versões canônicas exatas (`=`) é formalmente **recomendada** (*SHOULD* / *DEVERIA*) para assegurar integridade determinística. De forma estrita e deliberada, **nenhuma trava sintática, bloqueio de build ou restrição de linter** é imposta contra o uso dos aliases de desenvolvimento (`latest-dev`, `X.Y.Z-dev`), preservando a liberdade e a conveniência do consumo prático de aliases.
+
+---
+
+## 6. Entrega Contínua de Servidores (CD em `obizero`, `obione` e `obitwo`)
 
 Para serviços conteinerizados autohospedados, o perfil Lilya opera com **Continuous Deployment (CD) Determinístico** disparado diretamente pela fila `deploy` da esteira em `gambi.2lp.in`, com banimento total do Watchtower.
 
@@ -192,7 +203,7 @@ services:
 
 ---
 
-## 6. Sobreposição de Regras de Conformidade (`lilya_rules.json`)
+## 7. Sobreposição de Regras de Conformidade (`lilya_rules.json`)
 
 Quando o `cccp sync` compila as regras para um repositório sob o perfil Lilya, as seguintes parametrizações específicas sobrepõem (*deep merge*) o `rules.json` base da GOST:
 

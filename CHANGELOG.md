@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **spec(kombinat):** definir orquestração contínua via Kombinat para propagação de versões canônicas e compilação em cascata com recomendação flexível (#12)
+
+
 ## [2.0.0] - 2026-10-26
 
 ### Added
