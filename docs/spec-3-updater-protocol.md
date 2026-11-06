@@ -9,10 +9,10 @@
 
 ## 1. Contexto & Motivação
 
-Todas as aplicações de usuário final desenvolvidas sob o perfil Lumen do ecossistema dissidente compartilham da mesma infraestrutura soberana:
+Todas as aplicações de usuário final desenvolvidas sob o perfil Lumen do ecossistema dissidente compartilham da mesma infraestrutura canônica:
 1. **Eliminação Integral de Binários Pesados no Codeberg / Git:** O Git armazena estritamente código-fonte, especificações e testes. Binários executáveis não são adicionados a commits nem aos anexos de releases do Codeberg.
 2. **Compilação Exclusiva na Nuvem/CI:** Todo binário é construído hermeticamente na esteira de CI/CD (Forgejo Runner com `capacity: 1`), preservando os limites e a responsividade da estação de trabalho local.
-3. **Distribuição Soberana na Banca (`https://banca.2lp.in/`):** Binários compilados são publicados diretamente no Cloudflare R2 da Banca com rotação automatizada e manifesto atômico `index.json`.
+3. **Distribuição Canônica na Banca (`https://banca.2lp.in/`):** Binários compilados são publicados diretamente no Cloudflare R2 da Banca com rotação automatizada e manifesto unificado `catalog.json`.
 4. **Conformidade com a Especificação OpenDesktop (XDG Base Directory):** Configurações e estados de execução devem respeitar as diretrizes freedesktop.org, permitindo gerenciamento declarativo de canais, pinning de versão e checagem periódica não-bloqueante no arranque com avisos em `stderr`.
 
 ---
@@ -126,23 +126,24 @@ Todo aplicativo DEVE expor:
 
 ---
 
-## 3. Arquitetura de Distribuição Soberana na Banca (`banca.2lp.in`)
+## 3. Arquitetura de Distribuição Canônica na Banca (`banca.2lp.in`)
 
 ### 3.1 Topologia de URLs e Endpoints Canônicos
 
 Servidos na raiz `https://banca.2lp.in/downloads/<app>/`:
 
 - `install.sh`: Instalador autônomo em POSIX sh com verificação SHA-256 e destino padrão em `~/.local/bin/`.
+- `catalog.json`: Manifesto unificado de todo o ecossistema (`https://banca.2lp.in/downloads/catalog.json`).
 - `stable-latest`: Binário do release estável mais recente.
-- `nightly-latest`: Binário da compilação contínua mais recente.
-- `stable-latest.version`: Arquivo de texto contendo estritamente a versão estável atual.
-- `nightly-latest.version`: Arquivo de texto contendo estritamente a versão nightly atual.
-- `index.json`: Manifesto atômico estruturado com histórico de versões, checksums SHA-256, tamanhos em bytes e links de download direto.
+- `dev-latest`: Binário da compilação contínua mais recente.
+- `index.json`: Manifesto de compatibilidade estruturado com histórico de versões, checksums SHA-256 e tamanhos em bytes.
 - `<app>-<version>-linux-x86_64`: Binário versionado imutável.
 
 ---
 
 ### 3.2 Política de Retenção e Expurgos (Cloudflare R2)
+- Retenção estrita de **5 versões estáveis** no canal `stable`.
+- Retenção estrita de **10 compilações** no canal `dev`.
 
 A automação da Banca executa o script `scripts/rotate-downloads.py` mantendo:
 - **Canal Estável (`stable`):** estritamente as **5 versões mais recentes**.
@@ -157,7 +158,7 @@ A automação da Banca executa o script `scripts/rotate-downloads.py` mantendo:
 - Seletor rápido de aplicações com dropdown e deep linking via hash `#<app>`.
 - Botões interativos com cópia de comando `curl` em um clique.
 - Tabela de histórico de versões com checksums SHA-256 auditáveis.
-- Rodapé canônico de duas linhas (identidade travesti latina e soberania).
+- Rodapé canônico de duas linhas (identidade travesti latina e licença).
 
 ---
 

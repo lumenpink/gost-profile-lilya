@@ -11,7 +11,7 @@
 
 Além da checagem periódica com avisos informativos em `stderr` (`auto_check = true`), usuários e administradores de quiosques, servidores ou estações de desenvolvimento necessitam de uma opção declarativa para manter seus binários sempre na última versão do canal desejado sem intervenção manual interativa.
 
-Essa capacidade é regulada pelo parâmetro `auto_update` no esquema de configuração OpenDesktop (`config.toml`), respeitando rigorosamente a soberania do usuário por meio de três princípios:
+Essa capacidade é regulada pelo parâmetro `auto_update` no esquema de configuração OpenDesktop (`config.toml`), respeitando rigorosamente a autonomia do usuário por meio de três princípios:
 1. **Desabilitado por Padrão:** O valor padrão é estritamente `auto_update = false`. Nenhuma máquina sofre atualizações sem consentimento explícito.
 2. **Respeito Absoluto a Pinning:** Se `pinned = true` ou se houver versão travada em `pin`, o mecanismo de auto-update é **sumariamente desativado**, impedindo upgrades indesejados.
 3. **Substituição Atômica Não-Destrutiva:** No Linux, o processo em execução na RAM permanece intacto; o novo binário é descarregado para um arquivo temporário no mesmo sistema de arquivos e renomeado atomicamente para o destino canônico (`~/.local/bin/<app>`), passando a valer para a próxima inicialização.

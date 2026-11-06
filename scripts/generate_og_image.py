@@ -89,7 +89,7 @@ def create_og_image(output_path="site/assets/og_preview.png"):
     t2_y = 330
     tdraw.text((t2_x, t2_y), t2_text, font=f_title2, fill=(88, 166, 255, 250))
 
-    sub_extra = "Afirmação transfeminista, soberania digital e rigor técnico"
+    sub_extra = "Afirmação transfeminista, autonomia digital e rigor técnico"
     se_box = tdraw.textbbox((0, 0), sub_extra, font=f_author)
     se_x = (width - (se_box[2] - se_box[0])) // 2
     se_y = 380

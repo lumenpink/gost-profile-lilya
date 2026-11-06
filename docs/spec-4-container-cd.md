@@ -1,4 +1,4 @@
-# Especificação Técnica — Ticket #4: Continuous Deployment Soberano de Containers & Descomissionamento do Watchtower
+# Especificação Técnica — Ticket #4: Continuous Deployment Canônico de Containers & Descomissionamento do Watchtower
 
 **Norma de Referência:** GOST 1.5.0  
 **Perfil:** Lumen (`https://gostlumen.2lp.in/profile.md`)  
