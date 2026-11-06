@@ -48,3 +48,14 @@ Adicionalmente, alinhado à Seção 4 do perfil base Kollontai, a amarra estrita
 - **Fase 7 (Mutation Test)**: Adicionar validações de mutantes sintéticos em `tests/test_kombinat_orchestration_spec.sh`.
 - **Fase 8 (Quality Gate)**: Executar todas as suítes de testes (`./tests/audit_profile.sh`, `./tests/test_kombinat_orchestration_spec.sh`) e `cccp check --strict`.
 - **Fase 9 (Finish & Close)**: Fechamento com Laudo Textual de Resolução e integração.
+
+---
+
+## 4. Registro de Execução das Fases
+
+- **Fase 3 (Spec)**: Especificação formal versionada.
+- **Fase 4 (Red Test)**: Criado `tests/test_kombinat_orchestration_spec.sh` com falha comprovada.
+- **Fase 5 (Green Implement)**: Inserida Seção 5 no `profile.md`, sincronizado `site/profile.md` e atualizado `CHANGELOG.md`.
+- **Fase 6 (Refactor)**: Asserções de teste modularizadas.
+- **Fase 7 (Mutation Test)**: Implementados 3 mutantes sintéticos em `tests/test_kombinat_orchestration_spec.sh` (omissão do Kombinat, remoção de compilação em cascata e alteração da cláusula sem trava). Todos os mutantes foram eliminados com 100% de precisão.
+
