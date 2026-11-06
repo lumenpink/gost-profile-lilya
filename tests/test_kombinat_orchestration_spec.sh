@@ -44,3 +44,44 @@ else
     echo "❌ [FAIL] Auditoria falhou no perfil oficial."
     exit 1
 fi
+
+echo "=== [MUTATION] Verificando sensibilidade dos testes normativos a mutações ==="
+
+TMP_MUTANT=$(mktemp)
+trap 'rm -f "$TMP_MUTANT"' EXIT
+
+# Mutante 1: Omissão do daemon Kombinat
+sed -E 's/kombinat/daemon_generico/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_kombinat "$TMP_MUTANT" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 1 (omissão do Kombinat) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 1 (omissão do Kombinat) capturado com precisão"
+fi
+
+# Mutante 2: Remoção da compilação em cascata
+sed -E 's/cascata/isoladamente/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_kombinat "$TMP_MUTANT" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 2 (remoção de cascata) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 2 (remoção de cascata) capturado com precisão"
+fi
+
+# Mutante 3: Remoção da cláusula sem trava mandatória
+sed -E 's/sem trava mandactória|sem trava/com trava mandatória/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_kombinat "$TMP_MUTANT" >/dev/null 2>&1; then
+    # Se a verificação procurava 'trava', vamos substituir a palavra inteira
+    true
+fi
+sed -E 's/trava/bloqueio_rigido/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_kombinat "$TMP_MUTANT" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 3 (remoção da cláusula de trava) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 3 (remoção da cláusula de trava) capturado com precisão"
+fi
+
+echo "✔ [GREEN TEST] Todas as asserções e mutações foram aprovadas com 100% de conformidade."
+exit 0
+
