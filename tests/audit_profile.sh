@@ -26,8 +26,8 @@ check_pattern 'name: "Perfil de Implementação Lilya"' "Nome canônico Perfil d
 check_pattern 'target_gost: "2.0.0"' "Frontmatter target_gost 2.0.0" || FAILED=1
 check_pattern 'canonical_url: "https://lilya.2lp.in/profile.md"' "Canonical URL https://lilya.2lp.in/profile.md" || FAILED=1
 
-# 2. Forja Soberana e Push Mirrors
-check_pattern 'gambi.2lp.in' "Menção à forja soberana gambi.2lp.in" || FAILED=1
+# 2. Forja Canônica e Push Mirrors
+check_pattern 'gambi.2lp.in' "Menção à forja canônica gambi.2lp.in" || FAILED=1
 check_pattern 'git@gambi.2lp.in:lumen/' "Remote SSH padrão na porta 22 git@gambi.2lp.in:lumen/" || FAILED=1
 check_pattern 'pushurl = no_push' "Configuração pushurl = no_push para remotes de PRs" || FAILED=1
 check_pattern 'crates.2lp.in' "Allowlist com crates.2lp.in" || FAILED=1
@@ -44,12 +44,24 @@ check_pattern 'латиноамериканской travesti' "Matriz de língua
 check_pattern 'wrangler.jsonc' "Menção à especificação wrangler.jsonc" || FAILED=1
 check_pattern 'in.2lp.<slug>' "Namespace canônico Dioxus in.2lp.<slug>" || FAILED=1
 
-# 5. Distribuição na Banca
+# 5. Distribuição na Banca e Cotas Operacionais
 check_pattern 'https://banca.2lp.in/downloads/' "Endpoint de downloads da Banca" || FAILED=1
 check_pattern 'curl -sSf https://banca.2lp.in/downloads/<slug>/install.sh | sh' "Comando canônico curl para install.sh" || FAILED=1
-check_pattern '5 estáveis e 10 compilações noturnas' "Política de retenção 5 estáveis / 10 nightlies" || FAILED=1
+check_pattern 'banca-artifacts/{app}/{channel}/' "Topologia física banca-artifacts/{app}/{channel}/" || FAILED=1
+check_pattern 'catalog.json' "Manifesto consolidado catalog.json" || FAILED=1
+check_pattern '5 versões mais recentes' "Cota operacional de 5 versões mais recentes para stable" || FAILED=1
+check_pattern '10 versões mais recentes' "Cota operacional de 10 versões mais recentes para dev" || FAILED=1
+check_pattern 'Tolerância Zero a Links Quebrados' "Princípio de tolerância zero a links quebrados" || FAILED=1
 
-# 6. Continuous Deployment de Servidores & Descomissionamento Watchtower
+# 6. Ausência de Termos Imperialistas
+if grep -rnEi "soberan[ao]|sovereign" "$PROFILE" >/dev/null 2>&1; then
+    echo "  [FAIL] Termos imperialistas detectados em profile.md"
+    FAILED=1
+else
+    echo "  [PASS] Ausência de termos imperialistas em profile.md"
+fi
+
+# 7. Continuous Deployment de Servidores & Descomissionamento Watchtower
 check_pattern 'compose.yaml' "Uso estrito de compose.yaml" || FAILED=1
 check_pattern 'obizero' "Deploy local no nó central obizero com socket Docker" || FAILED=1
 check_pattern 'obione' "Deploy nos nós de borda obione e obitwo via Tailscale" || FAILED=1
