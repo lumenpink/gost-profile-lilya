@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **spec(banca):** fixar limites operacionais de retencao 5 e 10 e catalogo unificado (closes #13)
 - **spec(kombinat):** definir orquestração contínua via Kombinat para propagação de versões canônicas e compilação em cascata com recomendação flexível (#12)
 
 
