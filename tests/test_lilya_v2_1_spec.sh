@@ -69,6 +69,16 @@ else
     FAILED=1
 fi
 
+# 7. Mandato de Conteinerização Universal e Topologia de Rede (#15)
+if grep -qF "Mandato de Conteinerização Universal em Stacks" "$PROFILE" && \
+   grep -qF "Apenas o Gossnab possui porta pública exposta" "$PROFILE" && \
+   grep -qF "O Kombinat opera estritamente confinado na rede privada" "$PROFILE"; then
+    echo "  [PASS] Mandato de conteinerização universal e topologia de rede presentes"
+else
+    echo "  [FAIL] Mandato de conteinerização universal ou topologia de rede ausente"
+    FAILED=1
+fi
+
 # 7. Verificação de Mutantes
 echo "=== [MUTATION] Verificando sensibilidade a mutações ==="
 TMP_MUT=$(mktemp)
