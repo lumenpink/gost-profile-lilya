@@ -1,16 +1,18 @@
-# Perfil de Implementação GOST: Lilya
+---
+standard: "lilya"
+tier: "operational"
+version: "2.1.0"
+locale: "pt-br"
+authority: "Standards Committee"
+published_at: "2026-11-08"
+inherits_from:
+  standard: "kollontai"
+  tier: "tactical"
+  version: "2.1.0"
+  base_url: "https://kollontai.2lp.in/2.1.0/"
+---
 
-```yaml
----
-id: lilya
-name: "Perfil de Implementação Lilya"
-extends: "https://kollontai.2lp.in/profile.md"
-target_gost: "2.0.0"
-maintainer: "Lumen Pink <hi@lumen.pink>"
-canonical_url: "https://lilya.2lp.in/profile.md"
-status: "Ativo / Produção"
----
-```
+# Perfil de Implementação GOST: Lilya
 
 > **Sobre este Perfil:**  
 > O perfil **Lilya** (anteriormente denominado *Lumen*) é a especialização autoral, pessoal e de infraestrutura do padrão **[GOST](https://gost.2lp.in)**.  
@@ -56,7 +58,7 @@ Na auditoria da regra `GOST-10-CI-HERMETIC-SINGLE-FILE`, a esteira `.forgejo/wor
 
 ---
 
-## 2. Rodapé Canônico em Duas Linhas (Afirmação Identitária & Soberania)
+## 2. Rodapé Canônico em Duas Linhas (Afirmação Identitária & Autonomia)
 
 O perfil Lilya preenche o template estrutural de rodapé herdado do perfil Kollontai com a afirmação identitária transfeminista sul-americana nas 10 línguas oficiais da norma GOST.
 
@@ -78,7 +80,7 @@ Todo aplicativo com interface gráfica, TUI/CLI com rodapé formatado, vitrine p
 
 ### 2.3 Matriz Oficial de Tradução do Rodapé (10 Línguas)
 
-| ISO | Linha 1 (Afirmação Identitária Transfeminista) | Linha 2 (Metadados de Soberania e Licença) |
+| ISO | Linha 1 (Afirmação Identitária Transfeminista) | Linha 2 (Metadados de Autonomia e Licença) |
 |:---:|---|---|
 | **`pt`** | Orgulhosamente produzido por uma [travesti latina](https://travesti.2lp.in/pt/) 🏳️‍⚧️ :) | {title} v{ver} • por [Lumen Pink](https://lumen.pink) • Brasil 🇧🇷 • [{lic}](LICENSE) |
 | **`en`** | Proudly produced by a [Latin American travesti](https://travesti.2lp.in/en/) 🏳️‍⚧️ :) | {title} v{ver} • by [Lumen Pink](https://lumen.pink) • Brazil 🇧🇷 • [{lic}](LICENSE) |
@@ -148,33 +150,44 @@ A autoridade central de distribuição de executáveis e pacotes definida na Se�
   - **Canal `stable` (Versão Recomendada):** Retém estritamente as **5 versões mais recentes** (`x.y.z`), com alias canônico `*-latest.*`.
   - **Canal `dev` (Versão Experimental):** Retém estritamente as **10 versões mais recentes** (`x.y.z-dev.{n}+{YYYYMMDD}.{commit}`), com alias canônico `*-dev-latest.*`.
   - Artefatos e hashes `.sha256` excedentes que ultrapassarem essas cotas são permanentemente purgados do bucket R2 pela esteira da Banca.
-* **Manifesto Canônico do Catálogo (`catalog.json`):**
-  - O catálogo unificado reside em `https://banca.2lp.in/downloads/catalog.json`, estruturado segundo `catalog.schema.json` com nós `apps.{app}.channels.stable` e `apps.{app}.channels.dev`.
-  - Durante o período de transição, a Banca gera e sincroniza views de compatibilidade retroativa em `https://banca.2lp.in/downloads/<slug>/index.json`.
+* **Transição para o Gossnab e Banimento de Manifestos Estáticos:**
+  - **Banimento de `catalog.json` e `kombinat.toml` em Repositórios:** É expressamente banido manter arquivos estáticos de manifesto como `catalog.json` ou `kombinat.toml` dentro de repositórios de código.
+  - **SSOT Centralizado Vivo (`gossnab`):** O serviço vivo **`gossnab`** (`https://gossnab.2lp.in/api/v1`) é a Fonte Única da Verdade para metadados de release, canais, inventário de artefatos e versionamento do ecossistema.
+  - Durante o período de transição, a Banca gera e sincroniza views de compatibilidade retroativa em `https://banca.2lp.in/downloads/<slug>/index.json` consumindo a API viva do Gossnab.
 * **Comando Universal de Instalação e Vitrine:**
   - Vitrine: `https://banca.2lp.in/downloads/#<slug>` (design brutalista/cyberpunk em Vanilla HTML/CSS/JS com cópia rápida de comando `curl` e tabela de hashes SHA-256).
   ```sh
   curl -sSf https://banca.2lp.in/downloads/<slug>/install.sh | sh
   ```
-* **Protocolo de Auto-Update XDG:** Os binários CLI consultam `catalog.json` (com fallback para `index.json` e `<channel>-latest.version`) para o protocolo de auto-atualização (`<slug> check-update` / `<slug> update`).
+* **Protocolo de Auto-Update XDG:** Os binários CLI consultam diretamente a API viva do Gossnab (`https://gossnab.2lp.in/api/v1/apps/<slug>/update`) para o protocolo de auto-atualização (`<slug> check-update` / `<slug> update`), com fallback para `index.json`.
 * **Tolerância Zero a Links Quebrados:** Se qualquer artefato declarado (novo ou histórico ativo nas cotas 5/10) falhar na verificação de rede ou divergência de checksum SHA-256, o deploy na Cloudflare é abortado imediatamente e um ticket automático é aberto na forja do projeto de origem (`POST /api/v1/repos/{repo_slug}/issues`).
 
 ---
 
-## 5. Orquestração Contínua de Dependências e Propagação em Cascata (Kombinat)
+## 5. Segregação Arquitetural: Gambi (CI) vs. Kombinat (CD)
 
-Para manter a coesão e a reprodutibilidade do ecossistema de bibliotecas e motores interdependentes registrados na forja primária (`gambi.2lp.in`) e no registro interno (`crates.2lp.in`), o perfil Lilya adota o daemon **Kombinat** como o gestor autônomo de dependências:
+Para eliminar atritos operacionais e garantir desacoplamento total entre integração contínua e entrega contínua, o perfil Lilya estabelece fronteiras estritas de responsabilidade:
 
-### 5.1 O Papel do Daemon Kombinat
-* **Monitoramento Contínuo:** O Kombinat monitora continuamente os eventos de publicação de novos pacotes (`cargo`, `generic`) na forja primária (`gambi.2lp.in`) e no registro de pacotes (`crates.2lp.in`).
-* **Propagação Automatizada em Cascata:** Ao detectar uma nova versão canônica de desenvolvimento publicada a montante (upstream, ex.: `0.2.0-dev.56`), o Kombinat orquestra a propagação dos bumps exatos nos manifestos de compilação dos módulos a jusante (downstream), disparando compilações e suítes de validação em cascata.
-* **Recomendação Sem Trava Mandatória:** A fixação em versões canônicas exatas (`=`) é formalmente **recomendada** (*SHOULD* / *DEVERIA*) para assegurar integridade determinística. De forma estrita e deliberada, **nenhuma trava sintática, bloqueio de build ou restrição de linter** é imposta contra o uso dos aliases de desenvolvimento (`latest-dev`, `X.Y.Z-dev`), preservando a liberdade e a conveniência do consumo prático de aliases.
+### 5.1 O Papel da Gambi: Integração Contínua (CI)
+* **Escopo:** Compilação, execução de testes unitários e de integração, verificação de linters/formatação e empacotamento.
+* **Publicação Efêmera de Staging:** A esteira de CI em `gambi.2lp.in` publica artefatos compilados exclusivamente no Generic Package Registry da própria forja via `PUT /api/packages/{owner}/generic/{package_name}/{version}/{filename}`.
+* **Isolamento de Produção:** A CI da Gambi **NÃO** efetua conexões SSH em servidores de produção nem realiza uploads diretos para storages externos (Cloudflare R2 / Banca / Pratilera).
+
+### 5.2 O Papel do Kombinat: Entrega Contínua (CD) e Propagação em Cascata
+* **Ingestão e Despacho de Binários:** O Kombinat consome os artefatos efêmeros de staging da Gambi, valida assinaturas e hashes SHA-256, e realiza a publicação externa definitiva na Banca (Cloudflare R2) e Pratilera.
+* **Purga Imediata de Staging:** Imediatamente após a confirmação do despacho com sucesso, o Kombinat remove os artefatos efêmeros do registro da Gambi emitindo `DELETE /api/packages/{owner}/generic/{package_name}/{version}/{filename}`, mantendo a forja limpa e sem acúmulo de storage.
+* **Propagação Automatizada em Cascata:** Ao detectar uma nova versão canônica de desenvolvimento publicada a montante (upstream), o Kombinat orquestra a propagação dos bumps exatos nos manifestos de compilação dos módulos a jusante (downstream). A fixação em versões canônicas exatas é recomendada, sem impor qualquer trava mandatória contra o uso prático de aliases.
+* **Entrega Contínua de Servidores (CD):** O Kombinat assume a responsabilidade de acionar as atualizações dos serviços conteinerizados via SSH nos servidores (`obizero`, `obione`, `obitwo`), disparando `docker compose pull && docker compose up -d` e restart de containers.
+
+### 5.3 Webhooks Multi-Forja e Loop de Reconciliação no Gossnab
+* **Ingestão Multi-Forja:** Repositórios registrados no Gossnab possuem webhooks ativos apontando para o Gossnab (suportando Forgejo/Gambi, GitHub e SourceHut).
+* **Loop de Reconciliação Anti-Drift:** Para mitigar falhas ou perdas de entrega de webhooks sem retentativa nativa, o Gossnab executa uma rotina periódica de conciliação a cada $N$ minutos, utilizando cabeçalhos condicionais HTTP (`ETag` e `If-Modified-Since`) para evitar requisições redundantes e rate limits.
 
 ---
 
 ## 6. Entrega Contínua de Servidores (CD em `obizero`, `obione` e `obitwo`)
 
-Para serviços conteinerizados autohospedados, o perfil Lilya opera com **Continuous Deployment (CD) Determinístico** disparado diretamente pela fila `deploy` da esteira em `gambi.2lp.in`, com banimento total do Watchtower.
+Para serviços conteinerizados autohospedados, o perfil Lilya opera com **Continuous Deployment (CD) Determinístico** orquestrado pelo **Kombinat CD** (eliminando etapas de SSH e deploy direto da esteira de CI), com banimento total do Watchtower.
 
 ### 5.1 Padrão de Orquestração e Healthcheck Obrigatório
 Todos os serviços residem em `~/stacks/<slug>/compose.yaml` (estritamente com extensão `.yaml`, sendo banida a extensão `.yml`) e declaram probe ativa de saúde:

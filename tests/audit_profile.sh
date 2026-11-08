@@ -20,11 +20,11 @@ check_pattern() {
 
 FAILED=0
 
-# 1. Frontmatter Lilya v2.0.0
-check_pattern 'id: lilya' "Frontmatter id: lilya" || FAILED=1
-check_pattern 'name: "Perfil de Implementação Lilya"' "Nome canônico Perfil de Implementação Lilya" || FAILED=1
-check_pattern 'target_gost: "2.0.0"' "Frontmatter target_gost 2.0.0" || FAILED=1
-check_pattern 'canonical_url: "https://lilya.2lp.in/profile.md"' "Canonical URL https://lilya.2lp.in/profile.md" || FAILED=1
+# 1. Frontmatter Lilya v2.1.0 Universal
+check_pattern 'standard: "lilya"' "Frontmatter standard: lilya" || FAILED=1
+check_pattern 'tier: "operational"' "Frontmatter tier: operational" || FAILED=1
+check_pattern 'standard: "kollontai"' "Herança de standard: kollontai" || FAILED=1
+check_pattern 'base_url: "https://kollontai.2lp.in/2.1.0/"' "Base URL https://kollontai.2lp.in/2.1.0/" || FAILED=1
 
 # 2. Forja Canônica e Push Mirrors
 check_pattern 'gambi.2lp.in' "Menção à forja canônica gambi.2lp.in" || FAILED=1
