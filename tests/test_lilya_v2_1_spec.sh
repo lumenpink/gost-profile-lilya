@@ -103,6 +103,15 @@ else
     FAILED=1
 fi
 
+# Mutante 3: remoção de isolamento do Kombinat
+grep -v 'O Kombinat opera estritamente confinado na rede privada' "$PROFILE" > "$TMP_MUT"
+if grep -qF 'O Kombinat opera estritamente confinado na rede privada' "$TMP_MUT"; then
+    echo "  [FAIL] Mutante 3 (isolamento do Kombinat ausente) sobreviveu"
+    FAILED=1
+else
+    echo "  [PASS] Mutante 3 (isolamento do Kombinat ausente) detectado"
+fi
+
 if [ $FAILED -ne 0 ]; then
     echo "=== [RESULT] FALHA NA AUDITORIA ==="
     exit 1
