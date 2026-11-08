@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.0] - 2026-11-08
 
 ### Added
+- **docker:** reforcar mandato de conteinerizacao e isolamento de rede (closes #15)
 - **spec:** subordinar perfil Lilya a Kollontai v2.1.0 com tier operacional (closes #14)
 - **spec:** formalizar servico vivo Gossnab como SSOT e banir manifestos estaticos (ref #14)
 - **rules:** migrar regras para rules.toml com scripts Lua em gost.* e locales (ref #14)
