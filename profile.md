@@ -228,6 +228,12 @@ services:
      docker image prune -f"
   ```
 
+### 6.3 Mandato de Conteinerização Universal em Stacks e Topologia de Rede
+1. **Banimento de Daemons no Host:** É estritamente proibido rodar serviços, APIs ou daemons de backend diretamente instalados no sistema operacional hospedeiro dos servidores (`obizero`, `obione`, `obitwo`). Todo serviço roda isolado via `~/stacks/<slug>/compose.yaml`.
+2. **Topologia de Segurança e Ingress:**
+   - **Ponto Único de Ingress Público:** Apenas o Gossnab possui porta pública exposta (via Cloudflare Tunnel / Gateway reverso) para recepção de webhooks das forjas externas e atendimento à Banca.
+   - **Isolamento do Kombinat:** O Kombinat opera estritamente confinado na rede privada interna, sem portas abertas para a internet pública, interagindo como cliente ativo unidirecional para tarefas de orquestração, build, assinatura, publicação externa e deploy via SSH.
+
 ---
 
 ## 7. Sobreposição de Regras de Conformidade (`lilya_rules.json`)
