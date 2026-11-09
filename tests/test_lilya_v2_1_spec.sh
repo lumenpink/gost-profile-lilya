@@ -79,6 +79,22 @@ else
     FAILED=1
 fi
 
+# 8. Escopos Canônicos de Regras Operacionais (#16)
+if python3 -c '
+import tomllib
+with open("'$RULES'", "rb") as f:
+    rules = tomllib.load(f).get("rules", {})
+for r_id, r_data in rules.items():
+    scope = r_data.get("scope")
+    assert scope in ["project", "commit-msg", "pre-push"], f"Escopo inválido: {scope} em {r_id}"
+'; then
+    echo "  [PASS] Escopos de regras operacionais em conformidade com GOST"
+else
+    echo "  [FAIL] Escopos de regras operacionais inválidos"
+    FAILED=1
+fi
+
+
 # 7. Verificação de Mutantes
 echo "=== [MUTATION] Verificando sensibilidade a mutações ==="
 TMP_MUT=$(mktemp)
