@@ -277,3 +277,22 @@ Todo utilitário CLI ou ferramenta de linha de comando voltada a desenvolvedores
 1. **Flag de Ajuda Informativa (`--help`):** Responder com código 0 e texto estruturado de instruções mínimas de operação.
 2. **Fidelidade Canônica de Versão (`--version`):** Responder com código 0 e texto contendo a versão exata do manifesto `VERSION` ou `Cargo.toml`.
 3. **Ciclo de Vida e Atualização:** Quando aplicável ao canal de distribuição, manter subcomando canônico de verificação ou atualização (`update` / `self-update`) integrado aos canais da Banca.
+
+
+---
+
+## 8. Portarias Operacionais da Fábrica Tulipa (LILYA-001 a LILYA-009)
+
+O perfil Lilya consolida as regras operacionais idiossincráticas da fábrica de software Tulipa, subordinadas aos decretos da Kollontai e às diretrizes do GOSPLAN:
+
+| ID | Nome Canônico | Escopo | Descrição Sumária |
+| :--- | :--- | :--- | :--- |
+| **LILYA-001** | `VERSION-NO-V-PREFIX` | `project` | Proíbe estritamente o uso do prefixo 'v' no arquivo canônico `VERSION`. |
+| **LILYA-002** | `TRANSFEMINIST-IDENTITY-REQUIRED` | `project` | Exige a afirmação de identidade transfeminista (`travesti`, `lumen.pink`) na documentação ou site. |
+| **LILYA-003** | `PRIMARY-FORGE-GAMBI-CANONICAL` | `project` | Declaração mandatória da forja canônica Tulipa `gambi.2lp.in` em `.cccprc`. |
+| **LILYA-004** | `CCCPRC-FILE-REQUIRED` | `project` | Presença e configuração obrigatória do arquivo `.cccprc` na raiz do repositório. |
+| **LILYA-005** | `STATIC-MANIFESTS-PROHIBITED` | `project` | Proibição estrita de manifestos estáticos `catalog.json` e `kombinat.toml`. |
+| **LILYA-006** | `STRICT-COMPOSE-YAML-EXTENSION` | `project` | Proibição de `.yml` e `docker-compose.yml`, exigindo estritamente `compose.yaml`. |
+| **LILYA-007** | `METADATA-MANIFEST-SCHEMA` | `project` | Validação de schema do manifesto canônico de metadados Gossnab `.gost/metadata.json`. |
+| **LILYA-008** | `CLI-HELP-INFORMATIVE-POST-BUILD` | `post-build` | Validação pós-compilação de texto informativo e estruturado via flag `--help`. |
+| **LILYA-009** | `CLI-VERSION-METADATA-PARITY-POST-BUILD` | `post-build` | Validação pós-compilação de paridade exata da saída de `--version` com o arquivo `VERSION`. |
