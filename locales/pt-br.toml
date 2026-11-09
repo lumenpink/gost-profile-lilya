@@ -21,3 +21,9 @@ messages.ERR_YML_EXTENSION_BANNED = "Extensão .yml é proibida para docker comp
 [rules.LILYA-005]
 description = "Documentação não deve conter termos proibidos (imperialistas)"
 messages.ERR_FORBIDDEN_IMPERIALIST_TERM = "Termo proibido encontrado no arquivo de documentação '{file}'"
+
+[rules.LILYA-006]
+description = "Utilitários CLI em post-build devem fornecer --help informativo e --version canônico idêntico ao VERSION"
+messages.ERR_CLI_HELP_FAILED = "Conformidade CLI falhou: binário '{binary} --help' falhou ou retornou texto de ajuda insuficiente"
+messages.ERR_CLI_VERSION_FAILED = "Conformidade CLI falhou: execução de '{binary} --version' falhou"
+messages.ERR_CLI_VERSION_MISMATCH = "Conformidade CLI falhou: saída de '{binary} --version' ('{got}') não contém a versão esperada '{expected}'"

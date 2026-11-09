@@ -102,3 +102,40 @@ return true
 '''
 [rules.LILYA-005.messages]
 ERR_FORBIDDEN_IMPERIALIST_TERM = "Forbidden imperialist term found in documentation file '{file}'"
+
+[rules.LILYA-006]
+name = "CLI-INTERFACE-CONFORMANCE-POST-BUILD"
+severity = "error"
+scope = "post-build"
+docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-006"
+description = "CLI utilities in post-build must output informative --help and canonical --version matching repository metadata"
+script = '''
+local bin = gost.target_binary()
+if not bin or bin == "" then
+    return true
+end
+
+local res_help = gost.exec_artifact(bin, { "--help" }, 3000)
+if not res_help.ok or not res_help.stdout or #res_help.stdout < 10 then
+    return false, "ERR_CLI_HELP_FAILED", { binary = bin }
+end
+
+local res_ver = gost.exec_artifact(bin, { "--version" }, 3000)
+if not res_ver.ok or not res_ver.stdout then
+    return false, "ERR_CLI_VERSION_FAILED", { binary = bin }
+end
+
+local expected_ver = gost.read_file("VERSION")
+if expected_ver then
+    expected_ver = expected_ver:gsub("%s+", "")
+    if expected_ver ~= "" and not res_ver.stdout:match(expected_ver) then
+        return false, "ERR_CLI_VERSION_MISMATCH", { binary = bin, expected = expected_ver, got = res_ver.stdout:gsub("%s+$", "") }
+    end
+end
+
+return true
+'''
+[rules.LILYA-006.messages]
+ERR_CLI_HELP_FAILED = "CLI conformance failed: binary '{binary} --help' failed or returned insufficient help text"
+ERR_CLI_VERSION_FAILED = "CLI conformance failed: binary '{binary} --version' execution failed"
+ERR_CLI_VERSION_MISMATCH = "CLI conformance failed: binary '{binary} --version' output '{got}' does not contain expected version '{expected}'"
