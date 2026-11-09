@@ -138,6 +138,15 @@ else
     echo "  [PASS] Mutante 3 (isolamento do Kombinat ausente) detectado"
 fi
 
+# Mutante 4: LILYA-006 sem post-build
+sed 's/scope = "post-build"/scope = "project"/g' "$RULES" > "$TMP_MUT"
+if grep -qF '[rules.LILYA-006]' "$TMP_MUT" && ! grep -A 5 '\[rules.LILYA-006\]' "$TMP_MUT" | grep -qF 'scope = "post-build"'; then
+    echo "  [PASS] Mutante 4 (LILYA-006 sem escopo post-build) detectado"
+else
+    echo "  [FAIL] Mutante 4 nao detectado"
+    FAILED=1
+fi
+
 if [ $FAILED -ne 0 ]; then
     echo "=== [RESULT] FALHA NA AUDITORIA ==="
     exit 1
