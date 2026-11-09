@@ -1,29 +1,50 @@
-# Lilya v2.1.0 — Catálogo de Localização em Português Brasileiro
+# Lilya v2.1.0 — Catálogo de Tradução das Regras Operacionais (pt-BR)
 
 [rules.LILYA-001]
-description = "Arquivos estáticos de manifesto catalog.json e kombinat.toml são estritamente proibidos"
-messages.ERR_STATIC_CATALOG_PROHIBITED = "Manifesto estático catalog.json é proibido; o inventário é gerido pela API do Gossnab"
-messages.ERR_STATIC_KOMBINAT_PROHIBITED = "Arquivo estático kombinat.toml é proibido; o estado de dependências é gerido pelo Gossnab"
+description = "O arquivo canônico VERSION não deve conter o prefixo 'v'"
+[rules.LILYA-001.messages]
+ERR_VERSION_V_PREFIX_PROHIBITED = "O arquivo canônico VERSION não deve iniciar com o prefixo 'v': '{version}'"
 
 [rules.LILYA-002]
-description = "O arquivo .cccprc deve declarar a forja canônica gambi.2lp.in"
-messages.ERR_CCCPRC_MISSING = "Arquivo de configuração .cccprc ausente"
-messages.ERR_GAMBI_DOMAIN_MISSING = "Domínio da forja primária gambi.2lp.in não declarado no .cccprc"
+description = "A documentação do repositório ou site deve incluir afirmação de identidade transfeminista (travesti, lumen.pink)"
+[rules.LILYA-002.messages]
+ERR_TRANSFEMINIST_IDENTITY_MISSING = "Afirmação de identidade transfeminista ausente na documentação do repositório"
 
 [rules.LILYA-003]
-description = "Documentação ou site deve incluir a afirmação identitária transfeminista canônica"
-messages.ERR_TRANSFEMINIST_IDENTITY_MISSING = "Afirmação identitária transfeminista ausente na documentação"
+description = "O arquivo .cccprc deve declarar a forja primária canônica Tulipa (gambi.2lp.in)"
+[rules.LILYA-003.messages]
+ERR_CCCPRC_MISSING = "Arquivo de configuração .cccprc não encontrado"
+ERR_GAMBI_DOMAIN_MISSING = "Domínio canônico da forja primária gambi.2lp.in não declarado no .cccprc"
 
 [rules.LILYA-004]
-description = "Arquivos docker compose devem usar estritamente a extensão .yaml, nunca .yml"
-messages.ERR_YML_EXTENSION_BANNED = "Extensão .yml é proibida para docker compose; utilize .yaml"
+description = "Todo repositório deve possuir o arquivo de configuração .cccprc na raiz"
+[rules.LILYA-004.messages]
+ERR_CCCPRC_MISSING = "Arquivo de configuração '.cccprc' ausente na raiz do repositório"
 
 [rules.LILYA-005]
-description = "Documentação não deve conter termos proibidos (imperialistas)"
-messages.ERR_FORBIDDEN_IMPERIALIST_TERM = "Termo proibido encontrado no arquivo de documentação '{file}'"
+description = "Manifestos estáticos legados catalog.json e kombinat.toml são estritamente proibidos no repositório"
+[rules.LILYA-005.messages]
+ERR_STATIC_CATALOG_PROHIBITED = "Arquivo estático catalog.json é estritamente proibido; catálogo é gerenciado via API do Gossnab"
+ERR_STATIC_KOMBINAT_PROHIBITED = "Arquivo estático kombinat.toml é estritamente proibido; dependências são geridas via API do Gossnab"
 
 [rules.LILYA-006]
-description = "Utilitários CLI em post-build devem fornecer --help informativo e --version canônico idêntico ao VERSION"
-messages.ERR_CLI_HELP_FAILED = "Conformidade CLI falhou: binário '{binary} --help' falhou ou retornou texto de ajuda insuficiente"
-messages.ERR_CLI_VERSION_FAILED = "Conformidade CLI falhou: execução de '{binary} --version' falhou"
-messages.ERR_CLI_VERSION_MISMATCH = "Conformidade CLI falhou: saída de '{binary} --version' ('{got}') não contém a versão esperada '{expected}'"
+description = "Arquivos docker compose devem utilizar estritamente a extensão .yaml, nunca .yml"
+[rules.LILYA-006.messages]
+ERR_YML_EXTENSION_BANNED = "Extensão .yml é estritamente banida para docker compose; utilize .yaml"
+
+[rules.LILYA-007]
+description = "Manifesto canônico de metadados Gossnab (.gost/metadata.json) deve ser válido e declarar schema_version"
+[rules.LILYA-007.messages]
+ERR_METADATA_MANIFEST_MISSING = "Manifesto canônico de metadados '.gost/metadata.json' não encontrado"
+ERR_METADATA_SCHEMA_INVALID = "Manifesto de metadados '.gost/metadata.json' não declara schema_version"
+
+[rules.LILYA-008]
+description = "Utilitários CLI em pós-compilação devem exibir ajuda estruturada e informativa na flag --help"
+[rules.LILYA-008.messages]
+ERR_CLI_HELP_FAILED = "Conformidade CLI falhou: binário '{binary} --help' falhou ou retornou texto de ajuda insuficiente"
+
+[rules.LILYA-009]
+description = "Utilitários CLI em pós-compilação devem retornar versão estritamente idêntica ao manifesto VERSION na flag --version"
+[rules.LILYA-009.messages]
+ERR_CLI_VERSION_FAILED = "Conformidade CLI falhou: execução de '{binary} --version' falhou"
+ERR_CLI_VERSION_MISMATCH = "Conformidade CLI falhou: saída de '{binary} --version' ('{got}') não contém a versão esperada '{expected}'"

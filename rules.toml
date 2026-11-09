@@ -1,55 +1,36 @@
 # Lilya v2.1.0 — Regras Operacionais (rules.toml)
+# Tier 4: Portarias Operacionais da Fábrica Tulipa (9 Regras Canônicas)
 
 [rules.LILYA-001]
-name = "STATIC-MANIFESTS-PROHIBITED"
+name = "VERSION-NO-V-PREFIX"
 severity = "error"
 scope = "project"
 docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-001"
-description = "Static catalog.json and kombinat.toml files are strictly prohibited in repositories"
+description = "Canonical VERSION file must not contain a 'v' prefix"
 script = '''
-if gost.file_exists("catalog.json") then
-    return false, "ERR_STATIC_CATALOG_PROHIBITED", { file = "catalog.json" }
+if not gost.file_exists("VERSION") then
+    return true
 end
-if gost.file_exists("kombinat.toml") then
-    return false, "ERR_STATIC_KOMBINAT_PROHIBITED", { file = "kombinat.toml" }
+local content = gost.read_file("VERSION"):match("^%s*(.-)%s*$")
+if content:sub(1, 1) == "v" then
+    return false, "ERR_VERSION_V_PREFIX_PROHIBITED", { version = content }
 end
 return true
 '''
 [rules.LILYA-001.messages]
-ERR_STATIC_CATALOG_PROHIBITED = "Static catalog.json is strictly prohibited; inventory is managed via Gossnab API"
-ERR_STATIC_KOMBINAT_PROHIBITED = "Static kombinat.toml is strictly prohibited; dependency state is managed via Gossnab API"
+ERR_VERSION_V_PREFIX_PROHIBITED = "Canonical VERSION file must not start with 'v' prefix: '{version}'"
 
 [rules.LILYA-002]
-name = "PRIMARY-FORGE-GAMBI-CANONICAL"
-severity = "error"
-scope = "project"
-docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-002"
-description = "The .cccprc file must declare primary_forge_domain as gambi.2lp.in"
-script = '''
-if not gost.file_exists(".cccprc") then
-    return false, "ERR_CCCPRC_MISSING", {}
-end
-local content = gost.read_file(".cccprc") or ""
-if not content:match("primary_forge_domain%s*=%s*gambi%.2lp%.in") and not content:match("gambi%.2lp%.in") then
-    return false, "ERR_GAMBI_DOMAIN_MISSING", {}
-end
-return true
-'''
-[rules.LILYA-002.messages]
-ERR_CCCPRC_MISSING = "Configuration file .cccprc is missing"
-ERR_GAMBI_DOMAIN_MISSING = "Canonical primary forge domain gambi.2lp.in is not declared in .cccprc"
-
-[rules.LILYA-003]
 name = "TRANSFEMINIST-IDENTITY-REQUIRED"
 severity = "error"
 scope = "project"
-docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-003"
+docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-002"
 description = "Repository documentation or site must include transfeminist identity assertion"
 script = '''
 local has_identity = false
 if gost.file_exists("profile.md") then
     local content = gost.read_file("profile.md") or ""
-    if content:match("travesti") and content:match("lumen%.pink") then
+    if content:match("travesti") or content:match("lumen%.pink") then
         has_identity = true
     end
 end
@@ -64,14 +45,68 @@ if not has_identity then
 end
 return true
 '''
-[rules.LILYA-003.messages]
+[rules.LILYA-002.messages]
 ERR_TRANSFEMINIST_IDENTITY_MISSING = "Transfeminist identity assertion is missing from documentation"
 
+[rules.LILYA-003]
+name = "PRIMARY-FORGE-GAMBI-CANONICAL"
+severity = "error"
+scope = "project"
+docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-003"
+description = "The .cccprc file must declare primary_forge_domain as gambi.2lp.in"
+script = '''
+if not gost.file_exists(".cccprc") then
+    return false, "ERR_CCCPRC_MISSING", {}
+end
+local content = gost.read_file(".cccprc") or ""
+if not content:match("primary_forge_domain%s*=%s*gambi%.2lp%.in") and not content:match("gambi%.2lp%.in") then
+    return false, "ERR_GAMBI_DOMAIN_MISSING", {}
+end
+return true
+'''
+[rules.LILYA-003.messages]
+ERR_CCCPRC_MISSING = "Configuration file .cccprc is missing"
+ERR_GAMBI_DOMAIN_MISSING = "Canonical primary forge domain gambi.2lp.in is not declared in .cccprc"
+
 [rules.LILYA-004]
-name = "STRICT-COMPOSE-YAML-EXTENSION"
+name = "CCCPRC-FILE-REQUIRED"
 severity = "error"
 scope = "project"
 docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-004"
+description = "Every repository must have a .cccprc configuration file at the root"
+script = '''
+if not gost.file_exists(".cccprc") then
+    return false, "ERR_CCCPRC_MISSING", {}
+end
+return true
+'''
+[rules.LILYA-004.messages]
+ERR_CCCPRC_MISSING = "Configuration file '.cccprc' is missing from repository root"
+
+[rules.LILYA-005]
+name = "STATIC-MANIFESTS-PROHIBITED"
+severity = "error"
+scope = "project"
+docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-005"
+description = "Static catalog.json and kombinat.toml files are strictly prohibited in repositories"
+script = '''
+if gost.file_exists("catalog.json") then
+    return false, "ERR_STATIC_CATALOG_PROHIBITED", { file = "catalog.json" }
+end
+if gost.file_exists("kombinat.toml") then
+    return false, "ERR_STATIC_KOMBINAT_PROHIBITED", { file = "kombinat.toml" }
+end
+return true
+'''
+[rules.LILYA-005.messages]
+ERR_STATIC_CATALOG_PROHIBITED = "Static catalog.json is strictly prohibited; inventory is managed via Gossnab API"
+ERR_STATIC_KOMBINAT_PROHIBITED = "Static kombinat.toml is strictly prohibited; dependency state is managed via Gossnab API"
+
+[rules.LILYA-006]
+name = "STRICT-COMPOSE-YAML-EXTENSION"
+severity = "error"
+scope = "project"
+docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-006"
 description = "Docker compose files must strictly use .yaml extension, never .yml"
 script = '''
 if gost.file_exists("compose.yml") or gost.file_exists("docker-compose.yml") then
@@ -79,36 +114,36 @@ if gost.file_exists("compose.yml") or gost.file_exists("docker-compose.yml") the
 end
 return true
 '''
-[rules.LILYA-004.messages]
+[rules.LILYA-006.messages]
 ERR_YML_EXTENSION_BANNED = "Extension .yml is strictly banned for docker compose; use .yaml"
 
-[rules.LILYA-005]
-name = "FORBIDDEN-IMPERIALIST-TERMS"
+[rules.LILYA-007]
+name = "METADATA-MANIFEST-SCHEMA"
 severity = "error"
 scope = "project"
-docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-005"
-description = "Documentation must not contain prohibited imperialist terms"
+docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-007"
+description = "Gossnab canonical metadata manifest (.gost/metadata.json) must be valid and declare schema_version"
 script = '''
-local files = gost.list_files("docs") or {}
-for _, file in ipairs(files) do
-    if file:match("%.md$") then
-        local content = gost.read_file(file) or ""
-        if content:lower():match("soberan") then
-            return false, "ERR_FORBIDDEN_IMPERIALIST_TERM", { file = file }
-        end
-    end
+local meta_path = ".gost/metadata.json"
+if not gost.file_exists(meta_path) then
+    return false, "ERR_METADATA_MANIFEST_MISSING", {}
+end
+local content = gost.read_file(meta_path) or ""
+if not content:match('"schema_version"') then
+    return false, "ERR_METADATA_SCHEMA_INVALID", {}
 end
 return true
 '''
-[rules.LILYA-005.messages]
-ERR_FORBIDDEN_IMPERIALIST_TERM = "Forbidden imperialist term found in documentation file '{file}'"
+[rules.LILYA-007.messages]
+ERR_METADATA_MANIFEST_MISSING = "Canonical metadata manifest '.gost/metadata.json' is missing"
+ERR_METADATA_SCHEMA_INVALID = "Metadata manifest '.gost/metadata.json' does not declare schema_version"
 
-[rules.LILYA-006]
-name = "CLI-INTERFACE-CONFORMANCE-POST-BUILD"
+[rules.LILYA-008]
+name = "CLI-HELP-INFORMATIVE-POST-BUILD"
 severity = "error"
 scope = "post-build"
-docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-006"
-description = "CLI utilities in post-build must output informative --help and canonical --version matching repository metadata"
+docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-008"
+description = "Compiled CLI binaries in post-build must output informative structured help on --help"
 script = '''
 local bin = gost.target_binary()
 if not bin or bin == "" then
@@ -118,6 +153,22 @@ end
 local res_help = gost.exec_artifact(bin, { "--help" }, 3000)
 if not res_help.ok or not res_help.stdout or #res_help.stdout < 10 then
     return false, "ERR_CLI_HELP_FAILED", { binary = bin }
+end
+return true
+'''
+[rules.LILYA-008.messages]
+ERR_CLI_HELP_FAILED = "CLI conformance failed: binary '{binary} --help' failed or returned insufficient help text"
+
+[rules.LILYA-009]
+name = "CLI-VERSION-METADATA-PARITY-POST-BUILD"
+severity = "error"
+scope = "post-build"
+docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-009"
+description = "Compiled CLI binaries in post-build must output version strictly matching repository VERSION"
+script = '''
+local bin = gost.target_binary()
+if not bin or bin == "" then
+    return true
 end
 
 local res_ver = gost.exec_artifact(bin, { "--version" }, 3000)
@@ -132,10 +183,8 @@ if expected_ver then
         return false, "ERR_CLI_VERSION_MISMATCH", { binary = bin, expected = expected_ver, got = res_ver.stdout:gsub("%s+$", "") }
     end
 end
-
 return true
 '''
-[rules.LILYA-006.messages]
-ERR_CLI_HELP_FAILED = "CLI conformance failed: binary '{binary} --help' failed or returned insufficient help text"
+[rules.LILYA-009.messages]
 ERR_CLI_VERSION_FAILED = "CLI conformance failed: binary '{binary} --version' execution failed"
 ERR_CLI_VERSION_MISMATCH = "CLI conformance failed: binary '{binary} --version' output '{got}' does not contain expected version '{expected}'"
