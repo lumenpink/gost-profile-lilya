@@ -42,7 +42,7 @@ ERR_GAMBI_DOMAIN_MISSING = "Canonical primary forge domain gambi.2lp.in is not d
 [rules.LILYA-003]
 name = "TRANSFEMINIST-IDENTITY-REQUIRED"
 severity = "error"
-scope = "docs"
+scope = "project"
 docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-003"
 description = "Repository documentation or site must include transfeminist identity assertion"
 script = '''
@@ -70,7 +70,7 @@ ERR_TRANSFEMINIST_IDENTITY_MISSING = "Transfeminist identity assertion is missin
 [rules.LILYA-004]
 name = "STRICT-COMPOSE-YAML-EXTENSION"
 severity = "error"
-scope = "docker"
+scope = "project"
 docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-004"
 description = "Docker compose files must strictly use .yaml extension, never .yml"
 script = '''
@@ -85,7 +85,7 @@ ERR_YML_EXTENSION_BANNED = "Extension .yml is strictly banned for docker compose
 [rules.LILYA-005]
 name = "FORBIDDEN-IMPERIALIST-TERMS"
 severity = "error"
-scope = "docs"
+scope = "project"
 docs_url = "https://lilya.2lp.in/2.1.0/rules/LILYA-005"
 description = "Documentation must not contain prohibited imperialist terms"
 script = '''
