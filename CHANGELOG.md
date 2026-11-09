@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **rules:** implementar regra LILYA-006 conformidade cli post-build (closes #17)
 - **rules:** alinhar escopos de regras operacionais com a tipologia de ciclos (closes #16)
 
 ## [2.1.0] - 2026-11-08
