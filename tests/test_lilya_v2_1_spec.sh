@@ -79,18 +79,28 @@ else
     FAILED=1
 fi
 
-# 8. Escopos Canônicos de Regras Operacionais (#16)
+# 8. Escopos Canônicos de Regras Operacionais (#16, #17)
 if python3 -c '
 import tomllib
 with open("'$RULES'", "rb") as f:
     rules = tomllib.load(f).get("rules", {})
 for r_id, r_data in rules.items():
     scope = r_data.get("scope")
-    assert scope in ["project", "commit-msg", "pre-push"], f"Escopo inválido: {scope} em {r_id}"
+    assert scope in ["project", "commit-msg", "pre-push", "post-build"], f"Escopo inválido: {scope} em {r_id}"
+assert "LILYA-006" in rules, "Regra LILYA-006 ausente em rules.toml"
+assert rules["LILYA-006"]["scope"] == "post-build", "LILYA-006 deve ter escopo post-build"
 '; then
-    echo "  [PASS] Escopos de regras operacionais em conformidade com GOST"
+    echo "  [PASS] Escopos de regras operacionais e LILYA-006 em conformidade com GOST"
 else
-    echo "  [FAIL] Escopos de regras operacionais inválidos"
+    echo "  [FAIL] Escopos de regras operacionais inválidos ou LILYA-006 ausente"
+    FAILED=1
+fi
+
+# 9. LILYA-006 presente em locales/pt-br.toml
+if grep -qF "[rules.LILYA-006]" "$LOCALES"; then
+    echo "  [PASS] LILYA-006 presente em locales/pt-br.toml"
+else
+    echo "  [FAIL] LILYA-006 ausente em locales/pt-br.toml"
     FAILED=1
 fi
 
