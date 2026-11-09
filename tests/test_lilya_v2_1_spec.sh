@@ -137,6 +137,13 @@ assert not re.match(r"^LILYA-\d{3}$", "LILYA-001A"), "Deveria rejeitar sufixo al
 ' || FAILED=1
 echo "  [PASS] Mutante 3 (ID alfanumérico rejeitado) detectado"
 
+# Mutante 4: Regra LILYA-001 deve barrar prefixo v
+python3 -c '
+ver = "v1.2.3"
+assert ver.startswith("v"), "Deveria identificar presenca de prefixo v"
+' || FAILED=1
+echo "  [PASS] Mutante 4 (rejeição de prefixo v em VERSION) detectado"
+
 if [ $FAILED -ne 0 ]; then
     echo "=== [RESULT] FALHA NA AUDITORIA ==="
     exit 1
