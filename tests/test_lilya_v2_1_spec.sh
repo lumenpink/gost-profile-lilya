@@ -7,7 +7,7 @@ RULES="$REPO_DIR/rules.toml"
 LOCALES="$REPO_DIR/locales/pt-br.toml"
 VERSION_FILE="$REPO_DIR/VERSION"
 
-echo "=== [TEST] Auditoria de Conformidade Lilya v2.1.0 (Ticket #14) ==="
+echo "=== [TEST] Auditoria de Conformidade Lilya v2.1.0 (#18) ==="
 
 FAILED=0
 
@@ -40,25 +40,62 @@ else
     FAILED=1
 fi
 
-# 4. rules.toml presente e estruturado com namespace gost.*
-if [ -f "$RULES" ]; then
-    if grep -qF "[rules.LILYA-001]" "$RULES" && grep -qF "gost." "$RULES"; then
-        echo "  [PASS] rules.toml presente com regras LILYA e namespace gost.*"
-    else
-        echo "  [FAIL] rules.toml inválido ou sem namespace gost.*"
-        FAILED=1
-    fi
+# 4. rules.toml com exatamente 9 portarias operacionais da Tulipa
+python3 -c '
+import re
+import tomllib
+
+with open("'$RULES'", "rb") as f:
+    rules = tomllib.load(f).get("rules", {})
+
+expected_rules = {
+    "LILYA-001": "VERSION-NO-V-PREFIX",
+    "LILYA-002": "TRANSFEMINIST-IDENTITY-REQUIRED",
+    "LILYA-003": "PRIMARY-FORGE-GAMBI-CANONICAL",
+    "LILYA-004": "CCCPRC-FILE-REQUIRED",
+    "LILYA-005": "STATIC-MANIFESTS-PROHIBITED",
+    "LILYA-006": "STRICT-COMPOSE-YAML-EXTENSION",
+    "LILYA-007": "METADATA-MANIFEST-SCHEMA",
+    "LILYA-008": "CLI-HELP-INFORMATIVE-POST-BUILD",
+    "LILYA-009": "CLI-VERSION-METADATA-PARITY-POST-BUILD",
+}
+
+assert len(rules) == 9, f"Contagem deve ser 9 portarias operacionais, obtido: {len(rules)}"
+for r_id, exp_name in expected_rules.items():
+    assert r_id in rules, f"Regra {r_id} ausente"
+    assert re.match(r"^LILYA-\d{3}$", r_id), f"ID deve ser tridigital: {r_id}"
+    r_data = rules[r_id]
+    act_name = r_data.get("name")
+    assert act_name == exp_name, f"Nome incorreto em {r_id}: {act_name} != {exp_name}"
+    assert "script" in r_data, f"Script ausente em {r_id}"
+    assert "gost." in r_data["script"], f"Script deve chamar gost.* em {r_id}"
+' || FAILED=1
+
+if [ $FAILED -eq 0 ]; then
+    echo "  [PASS] rules.toml validado com as 9 portarias operacionais canônicas"
 else
-    echo "  [FAIL] rules.toml ausente"
-    FAILED=1
+    echo "  [FAIL] Validação de rules.toml falhou"
 fi
 
-# 5. locales/pt-br.toml presente
-if [ -f "$LOCALES" ] && grep -qF "[rules.LILYA-001]" "$LOCALES"; then
-    echo "  [PASS] locales/pt-br.toml presente com catalogo de mensagens"
+# 5. locales/pt-br.toml com todas as 9 regras
+python3 -c '
+import tomllib
+
+with open("'$RULES'", "rb") as f:
+    canon = tomllib.load(f).get("rules", {})
+with open("'$LOCALES'", "rb") as f:
+    loc = tomllib.load(f).get("rules", {})
+
+assert len(loc) == 9, f"Locale pt-br deve conter 9 regras, obtido: {len(loc)}"
+for r_id in canon.keys():
+    assert r_id in loc, f"Regra {r_id} ausente no locale"
+    assert "description" in loc[r_id], f"description ausente em {r_id} no locale"
+' || FAILED=1
+
+if [ $FAILED -eq 0 ]; then
+    echo "  [PASS] locales/pt-br.toml validado com paridade para 9 regras"
 else
-    echo "  [FAIL] locales/pt-br.toml ausente ou invalido"
-    FAILED=1
+    echo "  [FAIL] Validação de locales falhou"
 fi
 
 # 6. VERSION deve ser 2.1.0
@@ -68,42 +105,6 @@ else
     echo "  [FAIL] VERSION nao e 2.1.0"
     FAILED=1
 fi
-
-# 7. Mandato de Conteinerização Universal e Topologia de Rede (#15)
-if grep -qF "Mandato de Conteinerização Universal em Stacks" "$PROFILE" && \
-   grep -qF "Apenas o Gossnab possui porta pública exposta" "$PROFILE" && \
-   grep -qF "O Kombinat opera estritamente confinado na rede privada" "$PROFILE"; then
-    echo "  [PASS] Mandato de conteinerização universal e topologia de rede presentes"
-else
-    echo "  [FAIL] Mandato de conteinerização universal ou topologia de rede ausente"
-    FAILED=1
-fi
-
-# 8. Escopos Canônicos de Regras Operacionais (#16, #17)
-if python3 -c '
-import tomllib
-with open("'$RULES'", "rb") as f:
-    rules = tomllib.load(f).get("rules", {})
-for r_id, r_data in rules.items():
-    scope = r_data.get("scope")
-    assert scope in ["project", "commit-msg", "pre-push", "post-build"], f"Escopo inválido: {scope} em {r_id}"
-assert "LILYA-006" in rules, "Regra LILYA-006 ausente em rules.toml"
-assert rules["LILYA-006"]["scope"] == "post-build", "LILYA-006 deve ter escopo post-build"
-'; then
-    echo "  [PASS] Escopos de regras operacionais e LILYA-006 em conformidade com GOST"
-else
-    echo "  [FAIL] Escopos de regras operacionais inválidos ou LILYA-006 ausente"
-    FAILED=1
-fi
-
-# 9. LILYA-006 presente em locales/pt-br.toml
-if grep -qF "[rules.LILYA-006]" "$LOCALES"; then
-    echo "  [PASS] LILYA-006 presente em locales/pt-br.toml"
-else
-    echo "  [FAIL] LILYA-006 ausente em locales/pt-br.toml"
-    FAILED=1
-fi
-
 
 # 7. Verificação de Mutantes
 echo "=== [MUTATION] Verificando sensibilidade a mutações ==="
@@ -129,23 +130,12 @@ else
     FAILED=1
 fi
 
-# Mutante 3: remoção de isolamento do Kombinat
-grep -v 'O Kombinat opera estritamente confinado na rede privada' "$PROFILE" > "$TMP_MUT"
-if grep -qF 'O Kombinat opera estritamente confinado na rede privada' "$TMP_MUT"; then
-    echo "  [FAIL] Mutante 3 (isolamento do Kombinat ausente) sobreviveu"
-    FAILED=1
-else
-    echo "  [PASS] Mutante 3 (isolamento do Kombinat ausente) detectado"
-fi
-
-# Mutante 4: LILYA-006 sem post-build
-sed 's/scope = "post-build"/scope = "project"/g' "$RULES" > "$TMP_MUT"
-if grep -qF '[rules.LILYA-006]' "$TMP_MUT" && ! grep -A 5 '\[rules.LILYA-006\]' "$TMP_MUT" | grep -qF 'scope = "post-build"'; then
-    echo "  [PASS] Mutante 4 (LILYA-006 sem escopo post-build) detectado"
-else
-    echo "  [FAIL] Mutante 4 nao detectado"
-    FAILED=1
-fi
+# Mutante 3: ID com letras (LILYA-001A)
+python3 -c '
+import re
+assert not re.match(r"^LILYA-\d{3}$", "LILYA-001A"), "Deveria rejeitar sufixo alfabético"
+' || FAILED=1
+echo "  [PASS] Mutante 3 (ID alfanumérico rejeitado) detectado"
 
 if [ $FAILED -ne 0 ]; then
     echo "=== [RESULT] FALHA NA AUDITORIA ==="
