@@ -15,7 +15,7 @@ Perfil de Implementação Lilya (anteriormente Lumen) para a norma GOST 2.0.0 (e
 
 ## 🎯 Especializações do Perfil Lilya
 
-1. **Forja Soberana e Push Mirrors:** Hospedado em `gambi.2lp.in` com espelhamento duplo para Codeberg e GitHub (`pushurl = no_push` nos PR remotes).
+1. **Forja Primária e Push Mirrors:** Hospedado em `gambi.2lp.in` com espelhamento duplo para Codeberg e GitHub (`pushurl = no_push` nos PR remotes).
 2. **Exibição Estrita de Versão:**
    - **Short (v{MAJOR}.{MINOR}.{PATCH}):** Exibida em títulos, tags e badges.
    - **Long (Conteúdo Integral de `VERSION`):** Exibida obrigatoriamente no rodapé canônico.
@@ -23,7 +23,7 @@ Perfil de Implementação Lilya (anteriormente Lumen) para a norma GOST 2.0.0 (e
    - **Linha 1:** `Orgulhosamente produzido por uma travesti latina 🏳️‍⚧️ :)` (termo *travesti* intraduzível em 10 línguas).
    - **Linha 2:** `{App} v{LongVersion} • por Lumen Pink • Brasil 🇧🇷 • [{Licença}](LICENSE)`.
 4. **Distribuição na Banca (`banca.2lp.in`):** Vitrine interativa, comando `install.sh` universal e retenção 5/10 no Cloudflare R2.
-5. **Continuous Deployment Soberano:** Orquestração em `compose.yaml` (banido `.yml`), probe de healthcheck e rollback automático de 15s no nó `obizero`; nós `obione` e `obitwo` via Tailscale. Sem Watchtower.
+5. **Continuous Deployment Desacoplado:** Orquestração em `compose.yaml` (banido `.yml`), probe de healthcheck e rollback automático de 15s no nó `obizero`; nós `obione` e `obitwo` via Tailscale. Sem Watchtower.
 6. **Banners & Open Graph (Padrão KokoroSim):** 1200x630 com Safe Zone 4:3 central e simulador em [`site/card_preview.html`](site/card_preview.html).
 
 ## 🚀 Verificação de Conformidade
