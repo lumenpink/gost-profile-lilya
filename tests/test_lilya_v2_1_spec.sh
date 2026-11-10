@@ -23,11 +23,19 @@ else
 fi
 
 # 2. Ausência total de termos imperialistas proibidos
-if grep -rni "soberan" "$PROFILE"; then
-    echo "  [FAIL] Termo proibido (imperialismo/soberania) encontrado em profile.md"
+if grep -rni "soberan" "$PROFILE" "$REPO_DIR/site"; then
+    echo "  [FAIL] Termo proibido (imperialismo/soberania) encontrado em profile.md ou site/"
     FAILED=1
 else
-    echo "  [PASS] Ausência de termos imperialistas em profile.md"
+    echo "  [PASS] Ausência de termos imperialistas em profile.md e site/"
+fi
+
+# 2.1 Paridade de site/profile.md com profile.md
+if ! cmp -s "$PROFILE" "$REPO_DIR/site/profile.md"; then
+    echo "  [FAIL] site/profile.md diverge de profile.md"
+    FAILED=1
+else
+    echo "  [PASS] site/profile.md sincronizado com profile.md"
 fi
 
 # 3. Formalização do Gossnab e banimento de manifestos estáticos
@@ -41,7 +49,7 @@ else
 fi
 
 # 4. rules.toml com exatamente 9 portarias operacionais da Tulipa
-python3 -c '
+if python3 -c '
 import re
 import tomllib
 
@@ -69,16 +77,15 @@ for r_id, exp_name in expected_rules.items():
     assert act_name == exp_name, f"Nome incorreto em {r_id}: {act_name} != {exp_name}"
     assert "script" in r_data, f"Script ausente em {r_id}"
     assert "gost." in r_data["script"], f"Script deve chamar gost.* em {r_id}"
-' || FAILED=1
-
-if [ $FAILED -eq 0 ]; then
+'; then
     echo "  [PASS] rules.toml validado com as 9 portarias operacionais canônicas"
 else
     echo "  [FAIL] Validação de rules.toml falhou"
+    FAILED=1
 fi
 
 # 5. locales/pt-br.toml com todas as 9 regras
-python3 -c '
+if python3 -c '
 import tomllib
 
 with open("'$RULES'", "rb") as f:
@@ -90,12 +97,11 @@ assert len(loc) == 9, f"Locale pt-br deve conter 9 regras, obtido: {len(loc)}"
 for r_id in canon.keys():
     assert r_id in loc, f"Regra {r_id} ausente no locale"
     assert "description" in loc[r_id], f"description ausente em {r_id} no locale"
-' || FAILED=1
-
-if [ $FAILED -eq 0 ]; then
+'; then
     echo "  [PASS] locales/pt-br.toml validado com paridade para 9 regras"
 else
     echo "  [FAIL] Validação de locales falhou"
+    FAILED=1
 fi
 
 # 6. VERSION deve ser 2.1.0
