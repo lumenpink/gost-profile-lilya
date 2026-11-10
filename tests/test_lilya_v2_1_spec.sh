@@ -150,6 +150,16 @@ assert ver.startswith("v"), "Deveria identificar presenca de prefixo v"
 ' || FAILED=1
 echo "  [PASS] Mutante 4 (rejeição de prefixo v em VERSION) detectado"
 
+# Mutante 5: detecção de termo proibido em site/
+cat "$REPO_DIR/site/profile.md" > "$TMP_MUT"
+echo "soberania total" >> "$TMP_MUT"
+if grep -qi "soberan" "$TMP_MUT"; then
+    echo "  [PASS] Mutante 5 (termo proibido em site/ detectado) conforme"
+else
+    echo "  [FAIL] Mutante 5 não detectado"
+    FAILED=1
+fi
+
 if [ $FAILED -ne 0 ]; then
     echo "=== [RESULT] FALHA NA AUDITORIA ==="
     exit 1
