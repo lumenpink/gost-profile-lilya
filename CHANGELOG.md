@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **site:** sincronizar site/profile.md e purgar termos proibidos do site (closes #19)
 - **rules:** sanear catálogo operacional com 9 portarias de fábrica (closes #18)
 - **rules:** implementar regra LILYA-006 conformidade cli post-build (closes #17)
 - **rules:** alinhar escopos de regras operacionais com a tipologia de ciclos (closes #16)
