@@ -30,20 +30,20 @@ else
     echo "  [PASS] Ausência de termos imperialistas em profile.md e site/"
 fi
 
-# 2.1 Paridade de site/profile.md com profile.md
-if ! cmp -s "$PROFILE" "$REPO_DIR/site/profile.md"; then
-    echo "  [FAIL] site/profile.md diverge de profile.md"
+# 2.1 Paridade de site/2.1.0/RULES.md com profile.md
+if ! cmp -s "$PROFILE" "$REPO_DIR/site/2.1.0/RULES.md"; then
+    echo "  [FAIL] site/2.1.0/RULES.md diverge de profile.md"
     FAILED=1
 else
-    echo "  [PASS] site/profile.md sincronizado com profile.md"
+    echo "  [PASS] site/2.1.0/RULES.md sincronizado com profile.md"
 fi
 
-# 2.2 Paridade de site/rules.toml com rules.toml
-if ! cmp -s "$RULES" "$REPO_DIR/site/rules.toml"; then
-    echo "  [FAIL] site/rules.toml diverge ou ausente em relacao a rules.toml"
+# 2.2 Paridade de site/2.1.0/RULES.toml com rules.toml
+if ! cmp -s "$RULES" "$REPO_DIR/site/2.1.0/RULES.toml"; then
+    echo "  [FAIL] site/2.1.0/RULES.toml diverge ou ausente em relacao a rules.toml"
     FAILED=1
 else
-    echo "  [PASS] site/rules.toml sincronizado com rules.toml"
+    echo "  [PASS] site/2.1.0/RULES.toml sincronizado com rules.toml"
 fi
 
 # 3. Formalização do Gossnab e banimento de manifestos estáticos
@@ -159,7 +159,7 @@ assert ver.startswith("v"), "Deveria identificar presenca de prefixo v"
 echo "  [PASS] Mutante 4 (rejeição de prefixo v em VERSION) detectado"
 
 # Mutante 5: detecção de termo proibido em site/
-cat "$REPO_DIR/site/profile.md" > "$TMP_MUT"
+cat "$REPO_DIR/site/2.1.0/RULES.md" > "$TMP_MUT"
 echo "soberania total" >> "$TMP_MUT"
 if grep -qi "soberan" "$TMP_MUT"; then
     echo "  [PASS] Mutante 5 (termo proibido em site/ detectado) conforme"
