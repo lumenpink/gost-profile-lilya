@@ -177,6 +177,15 @@ Para eliminar atritos operacionais e garantir desacoplamento total entre integra
 * **Ingestão e Despacho de Binários:** O Kombinat consome os artefatos efêmeros de staging da Gambi, valida assinaturas e hashes SHA-256, e realiza a publicação externa definitiva na Banca (Cloudflare R2) e Pratilera.
 * **Purga Imediata de Staging:** Imediatamente após a confirmação do despacho com sucesso, o Kombinat remove os artefatos efêmeros do registro da Gambi emitindo `DELETE /api/packages/{owner}/generic/{package_name}/{version}/{filename}`, mantendo a forja limpa e sem acúmulo de storage.
 * **Propagação Automatizada em Cascata:** Ao detectar uma nova versão canônica de desenvolvimento publicada a montante (upstream), o Kombinat orquestra a propagação dos bumps exatos nos manifestos de compilação dos módulos a jusante (downstream). A fixação em versões canônicas exatas é recomendada, sem impor qualquer trava mandatória contra o uso prático de aliases.
+* **Eliminação de Tags Mutáveis em Build Determinístico:**
+  - É expressamente proibida a utilização de tags mutáveis (como `:latest`, `latest` flutuante ou referências dinâmicas não rastreadas) em scripts de compilação, dependências internas e imagens de base em pipelines de build determinístico.
+  - Todo build reprodutível e determinístico deve ancorar-se em tags SemVer imutáveis (`x.y.z` ou `x.y.z-dev.{n}+{YYYYMMDD}.{commit}`). Aliases de conveniência (`*-latest.*`) são reservados unicamente para links de consumo e vitrine externa da Banca / R2, nunca para acoplamento interno de compilação.
+* **Contrato Universal de FFI / C-ABI de Versão:**
+  - Toda crate Rust do ecossistema deve exportar a constante `pub const VERSION: &str = env!("CARGO_PKG_VERSION");` em sua raiz pública de biblioteca (`src/lib.rs`).
+  - Para projetos que compilam bibliotecas estáticas vinculadas via C-ABI (`crate-type = ["staticlib"]`), é mandatório expor o símbolo FFI externamente visível `#[no_mangle] pub extern "C" fn <crate_name>_version() -> *const std::os::raw::c_char` para introspecção determinística de linkagem estática.
+* **Inspeção Canônica de Ecossistema no CLI:**
+  - Binários de ponta com interface de comando devem implementar `--version --all` para listar a árvore completa de versões dos submódulos e bibliotecas estáticas C-ABI embutidas.
+  - Devem também implementar `--version --json` para emitir a árvore de dependências e diagnóstico do ecossistema em formato estruturado legível por máquina para o Kombinat.
 * **Entrega Contínua de Servidores (CD):** O Kombinat assume a responsabilidade de acionar as atualizações dos serviços conteinerizados via SSH nos servidores (`obizero`, `obione`, `obitwo`), disparando `docker compose pull && docker compose up -d` e restart de containers.
 
 ### 5.3 Webhooks Multi-Forja e Loop de Reconciliação no Gossnab
