@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **registry:** normatizar container registry OCI e cargo registry proprio em git.2lp.in (closes #7)
 - **site:** disponibilizar rules.toml em site/rules.toml sincronizado (closes #20)
 - **site:** sincronizar site/profile.md e purgar termos proibidos do site (closes #19)
 - **rules:** sanear catálogo operacional com 9 portarias de fábrica (closes #18)
