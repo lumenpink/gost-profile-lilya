@@ -183,6 +183,27 @@ Para eliminar atritos operacionais e garantir desacoplamento total entre integra
 * **Ingestão Multi-Forja:** Repositórios registrados no Gossnab possuem webhooks ativos apontando para o Gossnab (suportando Forgejo/Gambi, GitHub e SourceHut).
 * **Loop de Reconciliação Anti-Drift:** Para mitigar falhas ou perdas de entrega de webhooks sem retentativa nativa, o Gossnab executa uma rotina periódica de conciliação a cada $N$ minutos, utilizando cabeçalhos condicionais HTTP (`ETag` e `If-Modified-Since`) para evitar requisições redundantes e rate limits.
 
+### 5.4 Registries Autônomos Integrados: Container Registry OCI e Cargo Registry (`git.2lp.in`)
+Para garantir independência de upstream, imunidade a cotas e rate limits externos (Docker Hub, GHCR, crates.io) e latência de loopback no nó central, a forja autônoma disponibiliza registries integrados:
+
+#### 1. Container Registry OCI / Docker
+* **Endpoint Canônico:** `git.2lp.in/<owner>/<image>:<tag>` (com alias `gambi.2lp.in/<owner>/<image>:<tag>`).
+* **Autenticação:** Autenticação padrão via `docker login git.2lp.in` utilizando Personal Access Token (PAT) com escopo de leitura/escrita em pacotes.
+* **Persistência de Armazenamento:** Os pacotes e camadas de contêiner são montados no storage persistente em `/media/hd1/forgejo/data/packages`, preservando o SSD do nó central contra desgaste e saturação de espaço em disco.
+* **Política de Tags:** Tags SemVer estritas para builds estáveis (`x.y.z`) e builds de desenvolvimento (`x.y.z-dev.{n}+{YYYYMMDD}.{commit}`).
+
+#### 2. Cargo Registry (Rust)
+* **Registro de Crates do Ecossistema:** Registro autônomo hospedado em `git.2lp.in` para distribuição e consumo de bibliotecas e crates compartilhadas entre os projetos do ecossistema.
+* **Configuração Canônica em `.cargo/config.toml`:**
+  ```toml
+  [registries.gambi]
+  index = "sparse+https://git.2lp.in/api/packages/lumen/cargo/"
+
+  [registry]
+  default = "gambi"
+  ```
+* **Publicação:** `cargo publish --registry gambi` autenticado via token canônico da forja.
+
 ---
 
 ## 6. Entrega Contínua de Servidores (CD em `obizero`, `obione` e `obitwo`)
