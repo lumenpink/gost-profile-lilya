@@ -50,3 +50,38 @@ else
     echo "❌ [FAIL] Auditoria falhou no perfil oficial (comportamento RED esperado)."
     exit 1
 fi
+
+echo "=== [MUTATION] Verificando sensibilidade dos testes normativos a mutações ==="
+
+TMP_MUTANT=$(mktemp)
+trap 'rm -f "$TMP_MUTANT"' EXIT
+
+# Mutante 1: Omissão de Container Registry OCI
+sed -E 's/Container Registry OCI/Container Registry Publico/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_registries "$TMP_MUTANT" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 1 (omissão de Container Registry OCI) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 1 (omissão de Container Registry OCI) capturado com precisão"
+fi
+
+# Mutante 2: Omissão de Cargo Registry
+sed -E 's/Cargo Registry/Rust Registry Publico/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_registries "$TMP_MUTANT" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 2 (omissão de Cargo Registry) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 2 (omissão de Cargo Registry) capturado com precisão"
+fi
+
+# Mutante 3: Injeção de termo imperialista
+sed -E 's/registries autônomos/registries soberanos/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_registries "$TMP_MUTANT" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 3 (injeção de termo proibido) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 3 (injeção de termo proibido) capturado com precisão"
+fi
+
+echo "✔ [GREEN TEST] Todas as asserções e mutações foram aprovadas com 100% de conformidade."
+exit 0
