@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Refactored
+- **site:** unificar artefatos normativos sob site/{version}/ eliminando rotas duplicadas (closes #22)
+
 ### Added
 - **catalog:** disponibilizar catalogo versions.json e rotas versionadas (closes #21)
 - **spec:** normatizar orquestracao em cascata e anti-latest (closes #11)
@@ -26,6 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **rules:** migrar regras para rules.toml com scripts Lua em gost.* e locales (ref #14)
 
 ## [Unreleased]
+
+### Refactored
+- **site:** unificar artefatos normativos sob site/{version}/ eliminando rotas duplicadas (closes #22)
 
 ### Added
 - **spec(banca):** fixar limites operacionais de retencao 5 e 10 e catalogo unificado (closes #13)
