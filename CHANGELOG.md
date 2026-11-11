@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **catalog:** disponibilizar catalogo versions.json e rotas versionadas (closes #21)
 - **spec:** normatizar orquestracao em cascata e anti-latest (closes #11)
 - **registry:** normatizar container registry OCI e cargo registry proprio em git.2lp.in (closes #7)
 - **site:** disponibilizar rules.toml em site/rules.toml sincronizado (closes #20)
