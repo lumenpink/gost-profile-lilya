@@ -50,3 +50,47 @@ else
     echo "❌ [FAIL] Auditoria falhou no perfil oficial (comportamento RED esperado)."
     exit 1
 fi
+
+echo "=== [MUTATION] Verificando sensibilidade dos testes normativos a mutações ==="
+
+TMP_MUTANT=$(mktemp)
+trap 'rm -f "$TMP_MUTANT"' EXIT
+
+# Mutante 1: Omissão de anti-latest
+sed -E 's/eliminação de tags mutáveis/aceitação de tags dinâmicas/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_cascade "$TMP_MUTANT" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 1 (omissão de anti-latest) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 1 (omissão de anti-latest) capturado com precisão"
+fi
+
+# Mutante 2: Omissão do Contrato FFI
+sed -E 's/Contrato Universal de FFI/Convenção opcional de FFI/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_cascade "$TMP_MUTANT" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 2 (omissão do contrato FFI) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 2 (omissão do contrato FFI) capturado com precisão"
+fi
+
+# Mutante 3: Omissão da inspeção CLI
+sed -E 's/--version --all/--version --full/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_cascade "$TMP_MUTANT" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 3 (omissão de --version --all) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 3 (omissão de --version --all) capturado com precisão"
+fi
+
+# Mutante 4: Injeção de termo proibido
+sed -E 's/forja autônoma/forja soberana/gI' "$PROFILE" > "$TMP_MUTANT"
+if check_profile_cascade "$TMP_MUTANT" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 4 (injeção de termo proibido) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 4 (injeção de termo proibido) capturado com precisão"
+fi
+
+echo "✔ [GREEN TEST] Todas as asserções e mutações foram aprovadas com 100% de conformidade."
+exit 0
