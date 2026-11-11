@@ -16,10 +16,10 @@ check_versions_catalog() {
         echo "  [FAIL] site/versions.json não encontrado"
         failed=1
     else
-        if grep -q '"latest": "2.1.0"' "$vjson" && grep -q '"standard": "lilya"' "$vjson"; then
+        if grep -q '"latest": "2.1.0"' "$vjson" && grep -q '"standard": "lilya"' "$vjson" && grep -q '"versions"' "$vjson"; then
             true
         else
-            echo "  [FAIL] site/versions.json não declara latest 2.1.0 ou standard lilya"
+            echo "  [FAIL] site/versions.json não declara latest 2.1.0, standard lilya ou lista de versions"
             failed=1
         fi
     fi
