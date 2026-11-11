@@ -93,5 +93,18 @@ else
     echo "  [PASS] Mutante 3 (remoção de 2.1.0/RULES.toml) capturado com precisão"
 fi
 
+# Restaura RULES.toml
+cp "$REPO_ROOT/site/2.1.0/RULES.toml" "$TMP_DIR/site/2.1.0/"
+
+# Mutante 4: Remoção do campo versions de versions.json
+grep -v '"versions"' "$TMP_DIR/site/versions.json" > "$TMP_DIR/site/versions_no_ver.json"
+mv "$TMP_DIR/site/versions_no_ver.json" "$TMP_DIR/site/versions.json"
+if check_versions_catalog "$TMP_DIR" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 4 (omissão de versions) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 4 (omissão de versions) capturado com precisão"
+fi
+
 echo "✔ [GREEN TEST] Todas as asserções e mutações foram aprovadas com 100% de conformidade."
 exit 0
