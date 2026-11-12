@@ -15,12 +15,34 @@ inherits_from:
 # Perfil de Implementação GOST: Lilya
 
 > **Sobre este Perfil:**  
-> O perfil **Lilya** (anteriormente denominado *Lumen*) é a especialização autoral, pessoal e de infraestrutura do padrão **[GOST](https://gost.2lp.in)**.  
+> O perfil **Lilya** é a especialização autoral, pessoal e de infraestrutura do padrão **[GOST](https://gost.2lp.in)**.  
 > Ele estende diretamente o perfil base **[Kollontai](https://kollontai.2lp.in)** (`extends: https://kollontai.2lp.in/profile.md`), herdando a autoridade do Maestro **`cccp`**, a matriz de toolchains homologadas e os protocolos de distribuição, aplicando precedência estrita (*deep override*) para a forja canônica em `gambi.2lp.in`, publicação na borda (`*.2lp.in`), catálogo de binários (`banca.2lp.in`), afirmação identitária transfeminista no rodapé e entrega contínua nos servidores `obizero`, `obione` e `obitwo`.
 
 ---
 
-## 1. Identidade, Forja Canônica (`gambi.2lp.in`) e Espelhos
+## 1. Amarração Operacional de Binários Concretos da Fábrica Tulipa
+
+Em estrito alinhamento com a separação em camadas estabelecida pelo **GOST** (estratégico) e formalizada nos contratos abstratos de engenharia do **Kollontai** (tático), o perfil **Lilya** amarra operacionalmente os binários executáveis concretos da infraestrutura:
+
+| Papel Normativo Abstrato | Contrato Tático (Kollontai) | Binário Concreto Homologado (Lilya) | Repositório / Endpoint Canônico |
+| :--- | :--- | :--- | :--- |
+| **Maestro Local** | Ciclo DD-TDD, Branches, Commits, Fast-Hygiene, Merge e Push | **`cccp`** | `https://git.2lp.in/lumen/cccp` (`cccp.2lp.in`) |
+| **Autoridade de Forja e Abastecimento** | Tickets remotos, Triagem assistida (IA), Scaffolding e Catálogo Multi-repo | **`gossnab`** | `https://git.2lp.in/lumen/gossnab` (`gossnab.2lp.in/api/v1`) |
+| **Motor de Avaliação Normativa** | Auditoria de regras `rules.toml`, Laudos JSON/Texto e Avaliação sintática | **`lunokhod`** (`lk`) | `https://git.2lp.in/lumen/lunokhod` (`lunokhod.2lp.in`) |
+| **Agente de Entrega e Orquestração Contínua (CD)** | Despacho de artefatos, Purga de staging, Deploy de stacks e Cascata | **`kombinat`** | `https://git.2lp.in/lumen/kombinat` (`kombinat.2lp.in`) |
+| **Controlador de Fronteira e Sincronia** | Quarentena de PRs, Sincronia de espelhos e Ingestão de webhooks | **`kontur`** (`kt`) | `https://git.2lp.in/lumen/kontur` (`kontur.2lp.in`) |
+
+### 1.1 Tabela Operacional de Comandos Concretos
+A rotina de desenvolvimento na Fábrica Tulipa opera através das seguintes chamadas homologadas:
+* **Ciclo de Vida Local:** `cccp start <id>`, `cccp commit "<resumo>"`, `cccp mutate`, `cccp hygiene`, `cccp close "<resumo>"`, `cccp merge`, `cccp push`, `cccp release`.
+* **Forjas, Tickets e Catálogo:** `gossnab ticket <create|list|comment|close|sync>`, `gossnab divan` (triagem assistida via Gemini ou Ollama), `gossnab new <slug>`, `gossnab catalog scan/list`, `gossnab batch push`.
+* **Auditoria Normativa:** `lunokhod check --strict --lang pt-br [--scope <scope>] [--json]`, `lunokhod test`, `lunokhod eval "<expr>"`.
+* **Entrega Contínua e Deploy:** `kombinat` (daemon de CD / container em `stacks/kombinat/compose.yaml`).
+* **Telemetria e Fronteira:** `kt daemon`, `kt infra sync`, `kt reconcile`, `kt queue status/flush`, `kt inbox clean`.
+
+---
+
+## 2. Identidade, Forja Canônica (`gambi.2lp.in`) e Espelhos
 
 ### 1.1 Parâmetros Canônicos do Maestro (`.cccprc`)
 No perfil Lilya, o Maestro `cccp` opera com os seguintes parâmetros canônicos de infraestrutura:
@@ -58,7 +80,7 @@ Na auditoria da regra `GOST-10-CI-HERMETIC-SINGLE-FILE`, a esteira `.forgejo/wor
 
 ---
 
-## 2. Rodapé Canônico em Duas Linhas (Afirmação Identitária & Autonomia)
+## 3. Rodapé Canônico em Duas Linhas (Afirmação Identitária & Autonomia)
 
 O perfil Lilya preenche o template estrutural de rodapé herdado do perfil Kollontai com a afirmação identitária transfeminista sul-americana nas 10 línguas oficiais da norma GOST.
 
@@ -95,7 +117,7 @@ Todo aplicativo com interface gráfica, TUI/CLI com rodapé formatado, vitrine p
 
 ---
 
-## 3. Publicação Web na Borda (`*.2lp.in`) e Empacotamento Dioxus
+## 4. Publicação Web na Borda (`*.2lp.in`) e Empacotamento Dioxus
 
 ### 3.1 Hospedagem Estática via Cloudflare Workers (`wrangler.jsonc`)
 Toda vitrine pública (`./site`) é publicada sob o domínio `<slug>.2lp.in` através de `wrangler.jsonc` na raiz:
@@ -135,7 +157,7 @@ icon = ["site/assets/icon.png"]
 
 ---
 
-## 4. Distribuição e Catálogo da Banca (`banca.2lp.in` e Cloudflare R2)
+## 5. Distribuição e Catálogo da Banca (`banca.2lp.in` e Cloudflare R2)
 
 A autoridade central de distribuição de executáveis e pacotes definida na Seção 4 do perfil Kollontai opera sob o modelo **Produtor–Curador Desacoplado** servido via Cloudflare R2 e publicado na borda:
 
@@ -164,16 +186,16 @@ A autoridade central de distribuição de executáveis e pacotes definida na Se�
 
 ---
 
-## 5. Segregação Arquitetural: Gambi (CI) vs. Kombinat (CD)
+## 6. Segregação Arquitetural: Gambi (CI) vs. Kombinat (CD)
 
 Para eliminar atritos operacionais e garantir desacoplamento total entre integração contínua e entrega contínua, o perfil Lilya estabelece fronteiras estritas de responsabilidade:
 
-### 5.1 O Papel da Gambi: Integração Contínua (CI)
+### 6.1 O Papel da Gambi: Integração Contínua (CI)
 * **Escopo:** Compilação, execução de testes unitários e de integração, verificação de linters/formatação e empacotamento.
 * **Publicação Efêmera de Staging:** A esteira de CI em `gambi.2lp.in` publica artefatos compilados exclusivamente no Generic Package Registry da própria forja via `PUT /api/packages/{owner}/generic/{package_name}/{version}/{filename}`.
 * **Isolamento de Produção:** A CI da Gambi **NÃO** efetua conexões SSH em servidores de produção nem realiza uploads diretos para storages externos (Cloudflare R2 / Banca / Pratilera).
 
-### 5.2 O Papel do Kombinat: Entrega Contínua (CD) e Propagação em Cascata
+### 6.2 O Papel do Kombinat: Entrega Contínua (CD) e Propagação em Cascata
 * **Ingestão e Despacho de Binários:** O Kombinat consome os artefatos efêmeros de staging da Gambi, valida assinaturas e hashes SHA-256, e realiza a publicação externa definitiva na Banca (Cloudflare R2) e Pratilera.
 * **Purga Imediata de Staging:** Imediatamente após a confirmação do despacho com sucesso, o Kombinat remove os artefatos efêmeros do registro da Gambi emitindo `DELETE /api/packages/{owner}/generic/{package_name}/{version}/{filename}`, mantendo a forja limpa e sem acúmulo de storage.
 * **Propagação Automatizada em Cascata:** Ao detectar uma nova versão canônica de desenvolvimento publicada a montante (upstream), o Kombinat orquestra a propagação dos bumps exatos nos manifestos de compilação dos módulos a jusante (downstream). A fixação em versões canônicas exatas é recomendada, sem impor qualquer trava mandatória contra o uso prático de aliases.
@@ -188,11 +210,11 @@ Para eliminar atritos operacionais e garantir desacoplamento total entre integra
   - Devem também implementar `--version --json` para emitir a árvore de dependências e diagnóstico do ecossistema em formato estruturado legível por máquina para o Kombinat.
 * **Entrega Contínua de Servidores (CD):** O Kombinat assume a responsabilidade de acionar as atualizações dos serviços conteinerizados via SSH nos servidores (`obizero`, `obione`, `obitwo`), disparando `docker compose pull && docker compose up -d` e restart de containers.
 
-### 5.3 Webhooks Multi-Forja e Loop de Reconciliação no Gossnab
+### 6.3 Webhooks Multi-Forja e Loop de Reconciliação no Gossnab
 * **Ingestão Multi-Forja:** Repositórios registrados no Gossnab possuem webhooks ativos apontando para o Gossnab (suportando Forgejo/Gambi, GitHub e SourceHut).
 * **Loop de Reconciliação Anti-Drift:** Para mitigar falhas ou perdas de entrega de webhooks sem retentativa nativa, o Gossnab executa uma rotina periódica de conciliação a cada $N$ minutos, utilizando cabeçalhos condicionais HTTP (`ETag` e `If-Modified-Since`) para evitar requisições redundantes e rate limits.
 
-### 5.4 Registries Autônomos Integrados: Container Registry OCI e Cargo Registry (`git.2lp.in`)
+### 6.4 Registries Autônomos Integrados: Container Registry OCI e Cargo Registry (`git.2lp.in`)
 Para garantir independência de upstream, imunidade a cotas e rate limits externos (Docker Hub, GHCR, crates.io) e latência de loopback no nó central, a forja autônoma disponibiliza registries integrados:
 
 #### 1. Container Registry OCI / Docker
@@ -215,11 +237,11 @@ Para garantir independência de upstream, imunidade a cotas e rate limits extern
 
 ---
 
-## 6. Entrega Contínua de Servidores (CD em `obizero`, `obione` e `obitwo`)
+## 7. Entrega Contínua de Servidores (CD em `obizero`, `obione` e `obitwo`)
 
 Para serviços conteinerizados autohospedados, o perfil Lilya opera com **Continuous Deployment (CD) Determinístico** orquestrado pelo **Kombinat CD** (eliminando etapas de SSH e deploy direto da esteira de CI), com banimento total do Watchtower.
 
-### 5.1 Padrão de Orquestração e Healthcheck Obrigatório
+### 7.1 Padrão de Orquestração e Healthcheck Obrigatório
 Todos os serviços residem em `~/stacks/<slug>/compose.yaml` (estritamente com extensão `.yaml`, sendo banida a extensão `.yml`) e declaram probe ativa de saúde:
 
 ```yaml
@@ -236,7 +258,7 @@ services:
       start_period: 10s
 ```
 
-### 5.2 Topologia de Deploy por Nó de Infraestrutura
+### 7.2 Topologia de Deploy por Nó de Infraestrutura
 
 #### 1. Nó Central de Execução (`obizero` — Deploy Local via Socket)
 * O `forgejo-runner` executa no host `obizero` com o socket Docker montado.
@@ -258,7 +280,7 @@ services:
      docker image prune -f"
   ```
 
-### 6.3 Mandato de Conteinerização Universal em Stacks e Topologia de Rede
+### 7.3 Mandato de Conteinerização Universal em Stacks e Topologia de Rede
 1. **Banimento de Daemons no Host:** É estritamente proibido rodar serviços, APIs ou daemons de backend diretamente instalados no sistema operacional hospedeiro dos servidores (`obizero`, `obione`, `obitwo`). Todo serviço roda isolado via `~/stacks/<slug>/compose.yaml`.
 2. **Topologia de Segurança e Ingress:**
    - **Ponto Único de Ingress Público:** Apenas o Gossnab possui porta pública exposta (via Cloudflare Tunnel / Gateway reverso) para recepção de webhooks das forjas externas e atendimento à Banca.
@@ -266,7 +288,7 @@ services:
 
 ---
 
-## 7. Sobreposição de Regras de Conformidade (`lilya_rules.json`)
+## 8. Sobreposição de Regras de Conformidade (`lilya_rules.json`)
 
 Quando o `cccp sync` compila as regras para um repositório sob o perfil Lilya, as seguintes parametrizações específicas sobrepõem (*deep merge*) o `rules.json` base da GOST:
 
@@ -301,7 +323,7 @@ Quando o `cccp sync` compila as regras para um repositório sob o perfil Lilya, 
 
 ---
 
-## 7. Conformidade Operacional de Interfaces CLI (*Post-Build*)
+## 9. Conformidade Operacional de Interfaces CLI (*Post-Build*)
 
 Todo utilitário CLI ou ferramenta de linha de comando voltada a desenvolvedores e usuárias finais, quando submetido à validação no escopo canônico `post-build`, DEVE:
 1. **Flag de Ajuda Informativa (`--help`):** Responder com código 0 e texto estruturado de instruções mínimas de operação.
@@ -311,7 +333,7 @@ Todo utilitário CLI ou ferramenta de linha de comando voltada a desenvolvedores
 
 ---
 
-## 8. Portarias Operacionais da Fábrica Tulipa (LILYA-001 a LILYA-009)
+## 10. Portarias Operacionais da Fábrica Tulipa (LILYA-001 a LILYA-009)
 
 O perfil Lilya consolida as regras operacionais idiossincráticas da fábrica de software Tulipa, subordinadas aos decretos da Kollontai e às diretrizes do GOSPLAN:
 

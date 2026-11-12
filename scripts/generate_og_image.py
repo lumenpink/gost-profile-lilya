@@ -54,7 +54,7 @@ def create_og_image(output_path="site/assets/og_preview.png"):
     tdraw = ImageDraw.Draw(base)
 
     # 4. Badge superior centralizado (<= 35 chars)
-    b_text = " GOST // PERFIL LUMEN // EXTENDS KOLLONTAI "
+    b_text = " GOST // PERFIL LILYA // EXTENDS KOLLONTAI "
     b_box = tdraw.textbbox((0, 0), b_text, font=f_badge)
     bw = b_box[2] - b_box[0]
     bx = (width - bw) // 2
@@ -63,7 +63,7 @@ def create_og_image(output_path="site/assets/og_preview.png"):
     tdraw.text((bx, by), b_text, font=f_badge, fill=(255, 121, 198, 255))
 
     # 5. Título Principal da Marca / Perfil
-    brand_text = "gost-profile-lumen"
+    brand_text = "gost-profile-lilya"
     br_box = tdraw.textbbox((0, 0), brand_text, font=f_brand)
     brand_w = br_box[2] - br_box[0]
     brand_x = (width - brand_w) // 2

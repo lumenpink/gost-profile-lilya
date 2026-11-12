@@ -1,7 +1,7 @@
 # Especificação Técnica — Ticket #3: Protocolo OpenDesktop XDG de Auto-Atualização & Distribuição na Banca
 
 **Norma de Referência:** GOST 1.5.0  
-**Perfil:** Lumen (`https://gostlumen.2lp.in/profile.md`)  
+**Perfil:** Lilya (`https://lilya.2lp.in/profile.md`)  
 **Data:** 2026-10-20  
 **Status:** Aprovado / Em Implementação  
 
@@ -9,7 +9,7 @@
 
 ## 1. Contexto & Motivação
 
-Todas as aplicações de usuário final desenvolvidas sob o perfil Lumen do ecossistema dissidente compartilham da mesma infraestrutura canônica:
+Todas as aplicações de usuário final desenvolvidas sob o perfil Lilya do ecossistema dissidente compartilham da mesma infraestrutura canônica:
 1. **Eliminação Integral de Binários Pesados no Codeberg / Git:** O Git armazena estritamente código-fonte, especificações e testes. Binários executáveis não são adicionados a commits nem aos anexos de releases do Codeberg.
 2. **Compilação Exclusiva na Nuvem/CI:** Todo binário é construído hermeticamente na esteira de CI/CD (Forgejo Runner com `capacity: 1`), preservando os limites e a responsividade da estação de trabalho local.
 3. **Distribuição Canônica na Banca (`https://banca.2lp.in/`):** Binários compilados são publicados diretamente no Cloudflare R2 da Banca com rotação automatizada e manifesto unificado `catalog.json`.
@@ -21,7 +21,7 @@ Todas as aplicações de usuário final desenvolvidas sob o perfil Lumen do ecos
 
 ### 2.1 Resolução de Caminhos do Sistema de Arquivos
 
-Toda aplicação CLI ou desktop sob o perfil Lumen DEVE resolver seus diretórios conforme a especificação XDG:
+Toda aplicação CLI ou desktop sob o perfil Lilya DEVE resolver seus diretórios conforme a especificação XDG:
 
 - **Arquivo de Configuração do Usuário:**
   - Resolução: `${XDG_CONFIG_HOME:-~/.config}/<app>/config.toml`

@@ -1,7 +1,7 @@
 # Especificação Técnica — Ticket #5: Suporte a Auto-Update Transparente & Configurável
 
 **Norma de Referência:** GOST 1.5.0  
-**Perfil:** Lumen (`https://gostlumen.2lp.in/profile.md`)  
+**Perfil:** Lilya (`https://lilya.2lp.in/profile.md`)  
 **Data:** 2026-10-20  
 **Status:** Aprovado / Em Implementação  
 

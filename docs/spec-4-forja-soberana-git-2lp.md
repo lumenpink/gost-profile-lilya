@@ -3,12 +3,12 @@
 - **ID do Ticket:** #6
 - **Status:** Aprovado
 - **Autor:** Lumen
-- **Alinhamento:** GOST 1.5.0 (Perfil Lumen)
+- **Alinhamento:** GOST 1.5.0 (Perfil Lilya)
 
 ## 1. Contexto & Motivação
 A infraestrutura canônica do ecossistema evoluiu com a disponibilização da instância própria Forgejo v17 em `https://git.2lp.in`, hospedada localmente no nó `obizero` / `baquara` e com acesso SSH nativo na porta 22 padrão.
 
-Para garantir imunidade a instabilidades externas e manter ao mesmo tempo visibilidade e redundância pública internacional, a especificação normativa do Perfil Lumen deve ser atualizada para consagrar o modelo de **Forja Canônica Upstream com Espelhamento Duplo Automático (Push Mirrors)**.
+Para garantir imunidade a instabilidades externas e manter ao mesmo tempo visibilidade e redundância pública internacional, a especificação normativa do Perfil Lilya deve ser atualizada para consagrar o modelo de **Forja Canônica Upstream com Espelhamento Duplo Automático (Push Mirrors)**.
 
 ## 2. Requisitos Normativos
 1. **Identificação da Forja Primária:**

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **profile:** incorporar kombinat e kontur e expurgar referencias a perfil lumen (closes #25)
 - **profile:** alinhar chamadas operacionais concretas dos binarios cccp, gossnab e lunokhod (closes #24)
 
 ### Refactored

@@ -15,7 +15,7 @@ inherits_from:
 # Perfil de Implementação GOST: Lilya
 
 > **Sobre este Perfil:**  
-> O perfil **Lilya** (anteriormente denominado *Lumen*) é a especialização autoral, pessoal e de infraestrutura do padrão **[GOST](https://gost.2lp.in)**.  
+> O perfil **Lilya** é a especialização autoral, pessoal e de infraestrutura do padrão **[GOST](https://gost.2lp.in)**.  
 > Ele estende diretamente o perfil base **[Kollontai](https://kollontai.2lp.in)** (`extends: https://kollontai.2lp.in/profile.md`), herdando a autoridade do Maestro **`cccp`**, a matriz de toolchains homologadas e os protocolos de distribuição, aplicando precedência estrita (*deep override*) para a forja canônica em `gambi.2lp.in`, publicação na borda (`*.2lp.in`), catálogo de binários (`banca.2lp.in`), afirmação identitária transfeminista no rodapé e entrega contínua nos servidores `obizero`, `obione` e `obitwo`.
 
 ---
@@ -29,12 +29,16 @@ Em estrito alinhamento com a separação em camadas estabelecida pelo **GOST** (
 | **Maestro Local** | Ciclo DD-TDD, Branches, Commits, Fast-Hygiene, Merge e Push | **`cccp`** | `https://git.2lp.in/lumen/cccp` (`cccp.2lp.in`) |
 | **Autoridade de Forja e Abastecimento** | Tickets remotos, Triagem assistida (IA), Scaffolding e Catálogo Multi-repo | **`gossnab`** | `https://git.2lp.in/lumen/gossnab` (`gossnab.2lp.in/api/v1`) |
 | **Motor de Avaliação Normativa** | Auditoria de regras `rules.toml`, Laudos JSON/Texto e Avaliação sintática | **`lunokhod`** (`lk`) | `https://git.2lp.in/lumen/lunokhod` (`lunokhod.2lp.in`) |
+| **Agente de Entrega e Orquestração Contínua (CD)** | Despacho de artefatos, Purga de staging, Deploy de stacks e Cascata | **`kombinat`** | `https://git.2lp.in/lumen/kombinat` (`kombinat.2lp.in`) |
+| **Controlador de Fronteira e Sincronia** | Quarentena de PRs, Sincronia de espelhos e Ingestão de webhooks | **`kontur`** (`kt`) | `https://git.2lp.in/lumen/kontur` (`kontur.2lp.in`) |
 
 ### 1.1 Tabela Operacional de Comandos Concretos
 A rotina de desenvolvimento na Fábrica Tulipa opera através das seguintes chamadas homologadas:
 * **Ciclo de Vida Local:** `cccp start <id>`, `cccp commit "<resumo>"`, `cccp mutate`, `cccp hygiene`, `cccp close "<resumo>"`, `cccp merge`, `cccp push`, `cccp release`.
 * **Forjas, Tickets e Catálogo:** `gossnab ticket <create|list|comment|close|sync>`, `gossnab divan` (triagem assistida via Gemini ou Ollama), `gossnab new <slug>`, `gossnab catalog scan/list`, `gossnab batch push`.
 * **Auditoria Normativa:** `lunokhod check --strict --lang pt-br [--scope <scope>] [--json]`, `lunokhod test`, `lunokhod eval "<expr>"`.
+* **Entrega Contínua e Deploy:** `kombinat` (daemon de CD / container em `stacks/kombinat/compose.yaml`).
+* **Telemetria e Fronteira:** `kt daemon`, `kt infra sync`, `kt reconcile`, `kt queue status/flush`, `kt inbox clean`.
 
 ---
 
