@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **profile:** alinhar chamadas operacionais concretas dos binarios cccp, gossnab e lunokhod (closes #24)
+
 ### Refactored
 - **site:** unificar artefatos normativos sob site/{version}/ eliminando rotas duplicadas (closes #22)
 
