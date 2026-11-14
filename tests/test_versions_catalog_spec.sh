@@ -111,5 +111,17 @@ else
     echo "  [PASS] Mutante 4 (omissão de versions) capturado com precisão"
 fi
 
+# Restaura versions.json
+cp "$REPO_ROOT/site/versions.json" "$TMP_DIR/site/"
+
+# Mutante 5: Remoção de UPGRADE.md em 2.1.0
+rm "$TMP_DIR/site/2.1.0/UPGRADE.md"
+if check_versions_catalog "$TMP_DIR" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 5 (remoção de 2.1.0/UPGRADE.md) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 5 (remoção de 2.1.0/UPGRADE.md) capturado com precisão"
+fi
+
 echo "✔ [GREEN TEST] Todas as asserções e mutações foram aprovadas com 100% de conformidade."
 exit 0

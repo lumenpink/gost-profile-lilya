@@ -56,3 +56,60 @@ else
     echo "❌ [FAIL] Auditoria falhou (comportamento RED esperado na Fase 4)."
     exit 1
 fi
+
+echo "=== [MUTATION] Verificando sensibilidade dos testes de UPGRADE.md a mutações ==="
+
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+mkdir -p "$TMP_DIR/site/2.1.0"
+cp "$REPO_ROOT/site/2.1.0/UPGRADE.md" "$TMP_DIR/site/2.1.0/"
+
+# Mutante 1: Omissão de valid_since no frontmatter
+grep -v 'valid_since:' "$TMP_DIR/site/2.1.0/UPGRADE.md" > "$TMP_DIR/site/2.1.0/UPGRADE_mut.md"
+mv "$TMP_DIR/site/2.1.0/UPGRADE_mut.md" "$TMP_DIR/site/2.1.0/UPGRADE.md"
+if check_upgrade_md "$TMP_DIR" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 1 (omissão de valid_since) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 1 (omissão de valid_since) capturado com precisão"
+fi
+
+# Restaura UPGRADE.md
+cp "$REPO_ROOT/site/2.1.0/UPGRADE.md" "$TMP_DIR/site/2.1.0/"
+
+# Mutante 2: Omissão de replaces no frontmatter
+grep -v 'replaces:' "$TMP_DIR/site/2.1.0/UPGRADE.md" > "$TMP_DIR/site/2.1.0/UPGRADE_mut.md"
+mv "$TMP_DIR/site/2.1.0/UPGRADE_mut.md" "$TMP_DIR/site/2.1.0/UPGRADE.md"
+if check_upgrade_md "$TMP_DIR" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 2 (omissão de replaces) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 2 (omissão de replaces) capturado com precisão"
+fi
+
+# Restaura UPGRADE.md
+cp "$REPO_ROOT/site/2.1.0/UPGRADE.md" "$TMP_DIR/site/2.1.0/"
+
+# Mutante 3: Injeção de UPGRADE.md solto na raiz de site/
+touch "$TMP_DIR/site/UPGRADE.md"
+if check_upgrade_md "$TMP_DIR" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 3 (UPGRADE.md solto na raiz) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 3 (UPGRADE.md solto na raiz) capturado com precisão"
+fi
+rm -f "$TMP_DIR/site/UPGRADE.md"
+
+# Mutante 4: Remoção de seção obrigatória ("Quebras de Contrato")
+grep -v 'Quebras de Contrato' "$TMP_DIR/site/2.1.0/UPGRADE.md" > "$TMP_DIR/site/2.1.0/UPGRADE_mut.md"
+mv "$TMP_DIR/site/2.1.0/UPGRADE_mut.md" "$TMP_DIR/site/2.1.0/UPGRADE.md"
+if check_upgrade_md "$TMP_DIR" >/dev/null 2>&1; then
+    echo "  [FAIL] Mutante 4 (remoção de Quebras de Contrato) não foi capturado!"
+    exit 1
+else
+    echo "  [PASS] Mutante 4 (remoção de Quebras de Contrato) capturado com precisão"
+fi
+
+echo "✔ [GREEN TEST] Todas as asserções e mutações do contrato UPGRADE.md foram aprovadas!"
+exit 0
