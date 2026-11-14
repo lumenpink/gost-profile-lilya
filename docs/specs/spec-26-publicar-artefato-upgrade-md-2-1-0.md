@@ -71,3 +71,10 @@ Em conformidade com as diretrizes de governança, rejeita-se qualquer camada de 
    - Valida `standard: "lilya"`, `tier: "operational"`, `version: "2.1.0"`, `replaces: "2.0.0"`, `valid_since: "2.0.0"` e `breaking: true`.
 3. `test_upgrade_sections_structure`:
    - Valida a presença das quatro seções normatizadas (Quebras de Contrato, Mutação de Regras, Ações Manuais e Ações Automatizáveis).
+
+---
+
+## 5. Resultados de Validação (Quality Gate)
+- **Suíte Normativa:** Todas as 7 suítes de teste em `tests/*.sh` executadas com 100% de sucesso.
+- **Cobertura de Mutações:** 4 mutantes eliminados em `test_upgrade_md_spec.sh` e 5 mutantes eliminados em `test_versions_catalog_spec.sh`.
+- **Artefato Canônico:** `site/2.1.0/UPGRADE.md` publicado e auditado contra o contrato GOST v3.0.0.
