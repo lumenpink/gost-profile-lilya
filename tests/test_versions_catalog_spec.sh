@@ -30,13 +30,17 @@ check_versions_catalog() {
         failed=1
     fi
 
-    # 3. site/2.1.0/RULES.md e site/2.1.0/RULES.toml no subdiretório versionado
+    # 3. site/2.1.0/RULES.md, site/2.1.0/RULES.toml e site/2.1.0/UPGRADE.md no subdiretório versionado
     if [ ! -f "$root/site/2.1.0/RULES.md" ]; then
         echo "  [FAIL] site/2.1.0/RULES.md ausente no subdiretório versionado"
         failed=1
     fi
     if [ ! -f "$root/site/2.1.0/RULES.toml" ]; then
         echo "  [FAIL] site/2.1.0/RULES.toml ausente no subdiretório versionado"
+        failed=1
+    fi
+    if [ ! -f "$root/site/2.1.0/UPGRADE.md" ]; then
+        echo "  [FAIL] site/2.1.0/UPGRADE.md ausente no subdiretório versionado"
         failed=1
     fi
 
@@ -60,6 +64,7 @@ mkdir -p "$TMP_DIR/site/2.1.0"
 cp "$REPO_ROOT/site/versions.json" "$TMP_DIR/site/"
 cp "$REPO_ROOT/site/2.1.0/RULES.md" "$TMP_DIR/site/2.1.0/"
 cp "$REPO_ROOT/site/2.1.0/RULES.toml" "$TMP_DIR/site/2.1.0/"
+cp "$REPO_ROOT/site/2.1.0/UPGRADE.md" "$TMP_DIR/site/2.1.0/"
 
 # Mutante 1: Versão latest alterada
 sed -E 's/"latest": "2.1.0"/"latest": "9.9.9"/' "$TMP_DIR/site/versions.json" > "$TMP_DIR/site/versions_mut.json"
