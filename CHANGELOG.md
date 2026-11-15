@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **site:** publicar artefato UPGRADE.md da versao 2.1.0 com valid_since (closes #26)
 - **profile:** incorporar kombinat e kontur e expurgar referencias a perfil lumen (closes #25)
 - **profile:** alinhar chamadas operacionais concretas dos binarios cccp, gossnab e lunokhod (closes #24)
 
