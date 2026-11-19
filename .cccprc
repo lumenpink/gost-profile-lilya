@@ -1,5 +1,7 @@
 agent_var_lang = portuguese
 primary_forge_type = forgejo
+primary_forge_domain = gambi.2lp.in
+primary_forge_protocol = ssh
 primary_owner = lumen
 primary_repo = gost-profile-lilya
 mirrors = codeberg,github

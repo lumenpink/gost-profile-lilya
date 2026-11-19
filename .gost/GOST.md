@@ -1,3 +1,10 @@
+---
+standard: "lilya"
+tier: "operational"
+version: "2.1.0"
+languages: ["shell"]
+---
+
 # ☭ ГОСТ / GOSPLAN — Especificação Canônica Consolidada
 
 > **Aviso de Integridade Gosplan:**

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "slug": "gost-profile-lilya",
+  "title": "Perfil Lilya",
+  "site_type": "profile",
+  "tagline": "Perfil Operacional da Fábrica Tulipa",
+  "summary": "Perfil operacional da norma GOST para a infraestrutura Tulipa e ecossistema transfeminista.",
+  "abstract": "O perfil Lilya é a especialização operacional autoral e de infraestrutura do padrão GOST, estendendo o perfil Kollontai com regras estritas de identidade, forja Gambi e distribuição de artefatos.",
+  "tags": [
+    "gost",
+    "profile",
+    "lilya",
+    "operational",
+    "standards",
+    "tulipa",
+    "transfeminist"
+  ],
+  "icon": "🌸",
+  "theme": {
+    "bg_color": "#11111b",
+    "accent_color": "#f5c2e7"
+  }
+}
