@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **profile:** alinhar chamadas operacionais concretas dos binarios cccp, gossnab e lunokhod (closes #24)
 
 ### Refactored
+- **ci:** delegar deploy do site ao Kombinat via Generic Packages (`cccp package upload site`) e alinhar `dir` em `.gost/delivery.toml` (closes #28)
 - **site:** unificar artefatos normativos sob site/{version}/ eliminando rotas duplicadas (closes #22)
 
 ### Added

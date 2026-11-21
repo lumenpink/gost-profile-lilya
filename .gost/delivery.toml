@@ -4,4 +4,4 @@
 [sites]
 target = "cloudflare-pages"
 domain = "lilya.2lp.in"
-directory = "site"
+dir = "site"
